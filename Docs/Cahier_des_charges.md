@@ -23,6 +23,6 @@ Date de fin prévue :
 # 3 - Architecture technique
 
 Langage : Python 3.14
-Bibliothèques : Flask
+Bibliothèques : Flask, python-dotenv
 
 # 4 - Critères de réussite
