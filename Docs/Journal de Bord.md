@@ -9,3 +9,4 @@ Ajout de Conditions et Boucle exemple dans le html+ dico de test dans routes
 13/03/26
 Heredite des html
 Recherche pour ce passer des extention (form)
+refactor de la structure fichier pour etre conforme au conventions
