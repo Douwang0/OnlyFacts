@@ -1,5 +1,5 @@
 from flask import render_template, request, session, g
-from db import *
+from apps.db import db_test_user, db_test_posts
 from . import app # On utilise . pour utiliser le app deja import
 
 @app.before_request

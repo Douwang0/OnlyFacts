@@ -1,1 +1,1 @@
-from mdp import crypter, check
+from apps.mdp import crypter, check
