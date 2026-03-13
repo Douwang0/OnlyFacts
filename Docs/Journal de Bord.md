@@ -10,3 +10,4 @@ Ajout de Conditions et Boucle exemple dans le html+ dico de test dans routes
 Heredite des html
 Recherche pour ce passer des extention (form)
 refactor de la structure fichier pour etre conforme au conventions
+Implementation complete du systeme de login (reste le register)

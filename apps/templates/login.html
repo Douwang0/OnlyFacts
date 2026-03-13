@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <form method="post">
+    {% if erreur == "Aucun" %}
+    Veuillez verifier les informations, cette combinaison de nom prenom n'existe pas <br/>
+    {% elif erreur == True %}
+    Mot de passe incorrect <br/>
+    {% endif %}
     <label>Nom</label>
     <input type="text" name="nom">
 

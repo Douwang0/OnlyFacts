@@ -4,7 +4,7 @@ db_test_user = [
     {
         "nom" : "admin",
         "prenom" : "admin",
-        "mdp" : "vous_ne_saurez_jamais" # peut etre que si puisque c'est en dur... (evidement que avec la vrai db et l'encryption ce sera different)
+        "mdp" : "vous_ne_saurez_jamais" # peut etre que si puisque c'est coder en dur... (evidement que avec la vrai db et l'encryption ce sera different)
     },{
         "nom" : "Villermaux-Natalini",
         "prenom" : "Giulian",
