@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+    <head>
+        {% if titre %}
+        <title>{{ titre }} - OnlyFacts</title>
+        {% else %}
+        <title>Bienvenue dans OnlyFacts!</title>
+        {% endif %}
+    </head>
+   <body>
+        <div>OnlyFacts: <a href="/index">Accueil</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

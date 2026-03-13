@@ -1,16 +1,10 @@
-<!doctype html>
-<html>
-    <head>
-        {% if titre %}
-        <title>{{ titre }} - OnlyFacts</title>
-        {% else %}
-        <title>Bienvenue dans OnlyFacts!</title>
-        {% endif %}
-    </head>
-    <body>
+<!-- Ici on herite de la base "base.html", idealement faire ca pour tout les sites. 
+ Plus simple, moins de repetitions, pas besoin de reecrire le head -->
+
+{% extends "base.html" %}
+{% block content %}
         <h1>Salut, {{ utilisateur.nom }}!</h1>
         {% for post in posts %}
         <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
         {% endfor %}
-    </body>
-</html>
+{% endblock %}

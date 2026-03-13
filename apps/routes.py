@@ -15,4 +15,4 @@ def index():
             'body': 'The Avengers movie was so cool!'
         }
     ] # Dico de test, pas d'anglais dans la prod
-    return render_template('index.html', titre='Acceuil', utilisateur=utilisateur, posts=posts)
+    return render_template('index.html', titre='Accueil', utilisateur=utilisateur, posts=posts)
