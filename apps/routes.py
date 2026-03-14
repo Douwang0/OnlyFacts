@@ -1,6 +1,7 @@
 from flask import render_template, request, session, g, redirect
-from apps.db import db_test_user, db_test_posts
+from apps.data import get_utilisateur_par_id, get_posts_avec_infos
 from apps.auth import get_utilisateur, set_utilisateur
+from apps.post import liste_post_fini
 from . import app # On utilise . pour utiliser le app deja import
 
 @app.before_request
@@ -11,7 +12,7 @@ def charger_utilisateur():
     """
     id = session.get("user_id")
     if id is not None:
-        g.utilisateur = db_test_user[id]
+        g.utilisateur = get_utilisateur_par_id(id)
     else:
         g.utilisateur = None
 
@@ -20,7 +21,8 @@ def charger_utilisateur():
 def index():
     if g.utilisateur is None:
         return redirect(location="/login")
-    return render_template('index.html', titre='Accueil', utilisateur=g.utilisateur, posts=db_test_posts)
+    
+    return render_template('index.html', titre='Accueil', utilisateur=g.utilisateur, posts=liste_post_fini(0,20,False,"created"))
 
 @app.route('/login', methods = ['POST','GET'])
 def login():
