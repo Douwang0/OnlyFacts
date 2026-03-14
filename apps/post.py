@@ -6,7 +6,6 @@ def liste_post_fini(debut = 0,fin = 20,croissant=False,cle="created"):
     posts = get_posts_avec_infos()
     for post in posts:
         post["upvote"] = get_votes_post(post["id"])
-        print(post["upvote"])
     posts = tri_selection_dicos_parametre(posts,cle,croissant)
     posts = posts[debut:fin]
     for post in posts:
