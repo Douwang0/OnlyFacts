@@ -1,6 +1,6 @@
 from flask import render_template, request, session, g, redirect
 from apps.db import db_test_user, db_test_posts
-from apps.auth import get_utilisateur
+from apps.auth import get_utilisateur, set_utilisateur
 from . import app # On utilise . pour utiliser le app deja import
 
 @app.before_request
@@ -35,6 +35,18 @@ def login():
             session['user_id'] = id_utilisateur
             return redirect('/')
     return render_template('login.html', erreur=erreur)
+
+@app.route('/register', methods = ['POST','GET'])
+def register():
+    erreur = False
+    if request.method == 'POST':
+        if request.form['mdp'] == request.form['mdp_verif']:
+            erreur = set_utilisateur(request.form['nom'],request.form['prenom'],request.form['mdp'])
+        else:
+            erreur = "Difference Mdp"
+        if erreur is False:
+            return redirect('/login')
+    return render_template('signin.html', erreur=erreur)
 
 #Page de test, a enlever
 @app.route('/form', methods = ['POST','GET'])

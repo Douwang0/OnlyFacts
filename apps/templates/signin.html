@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post">
+    {% if erreur == "Existant" %}
+    Cette personne existe deja dans notre base de donnée, <br/>
+    Voulez vous vous <a href="/login">conneter</a> ? <br/>
+    {% elif erreur == "Nom/Prenom Vide" %}
+    Le champ nom ou prenom est vide, veuillez le remplir <br/>
+    {% elif erreur == "Mdp trop court" %}
+    Votre mot de passe n'est pas assez long (+8 caracteres) <br/>
+    {% elif erreur == "Difference Mdp" %}
+    Vos mots de passes ne sont pas les meme, veuillez réessayer <br/>
+    {% endif %}
+    <label>Nom</label>
+    <input type="text" name="nom"> <br/>
+
+    <label>Prenom</label>
+    <input type="text" name="prenom"> <br/>
+
+    <label>Mot de Passe</label>
+    <input type="password" name="mdp"> <br/>
+
+    <label>Mot de Passe (Verification)</label>
+    <input type="password" name="mdp_verif"> <br/>
+
+    <input type="submit" value="S'Inscrire"> <br/>
+
+    Deja un compte ? <a href="/login">Se connecter</a>
+</form>
+{% endblock %}

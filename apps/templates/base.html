@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <link href="/apps/static/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
         {% if titre %}
         <title>{{ titre }} - OnlyFacts</title>
         {% else %}
@@ -9,7 +9,7 @@
         {% endif %}
     </head>
    <body>
-        <div>OnlyFacts: <a href="/index">Accueil</a></div>
+        <div>OnlyFacts: <a href="/index">Accueil</a> <a href="/login">Changer de compte</a>
         <hr>
         {% block content %}{% endblock %}
     </body>
