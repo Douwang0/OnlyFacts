@@ -1,5 +1,5 @@
 from flask import render_template, request, session, g, redirect
-from apps.data import get_utilisateur_par_id, get_posts_avec_infos
+from apps.data import get_utilisateur_par_id, creer_post
 from apps.auth import get_utilisateur, set_utilisateur
 from apps.post import liste_post_fini
 from . import app # On utilise . pour utiliser le app deja import
@@ -49,6 +49,15 @@ def register():
         if erreur is False:
             return redirect('/login')
     return render_template('signin.html', erreur=erreur)
+
+
+
+@app.route('/create_post', methods = ['POST'])
+def create_post():
+    if request.method == 'POST':
+        contenu = request.form['contenu']
+        creer_post(g.utilisateur["id"], contenu)
+    return redirect("/")
 
 #Page de test, a enlever
 @app.route('/form', methods = ['POST','GET'])

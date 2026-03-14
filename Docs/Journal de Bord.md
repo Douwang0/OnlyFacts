@@ -14,3 +14,7 @@ Implementation complete du systeme de login (reste le register)
 14/03/26
 Implementation complete du register 
 Lien css html dans le body
+CHANGEMENT DE GESTION DES DONNES
+AFFICHAGE DES POSTS AVEC DATE ET UPVOTES
+Post des messages
+arrondi des valeur de date

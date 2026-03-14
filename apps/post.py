@@ -19,13 +19,13 @@ def liste_post_fini(debut = 0,fin = 20,croissant=False,cle="created"):
             debut = "Dans "
 
         if temp < 60: # 1min
-            post['created'] = f"{temp} sec"
+            post['created'] = f"{int(temp)} sec"
         elif temp < 3600: # 1h
-            post['created'] = f"{temp//60} min"
+            post['created'] = f"{int(temp//60)} min"
         elif temp < 86400: # 1j
-            post['created'] = f"{temp//3600} h"
+            post['created'] = f"{int(temp//3600)} h"
         elif temp < 31557600: # 1an
-            post['created'] = f"{temp//86400} jours"
+            post['created'] = f"{int(temp//86400)} jours"
         else:
             post['created'] = "plus d'un an"
         post['created'] = debut + post['created']
