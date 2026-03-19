@@ -1,5 +1,15 @@
 # Chere charles, ici tu va pouvoir t'amuser
 
+import sqlite3
+
+databaseConnection = sqlite3.connect('OF_database.db')
+cursor = databaseConnection.cursor()
+
+cursor.execute('SELECT sqlite_version();')
+result = cursor.fetchall()
+
+print("SQL Version : {}".format(result[0][0]))
+
 db_test_user = [
     {"id": 1, "nom": "admin", "prenom": "admin", "mdp": "vous_ne_saurez_jamais"},
     {"id": 2, "nom": "Villermaux-Natalini", "prenom": "Giulian", "mdp": "3.1415926"},
