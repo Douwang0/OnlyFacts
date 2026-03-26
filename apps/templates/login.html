@@ -2,20 +2,20 @@
 {% block content %}
 <form method="post">
     {% if erreur == "Aucun" %}
-    Veuillez verifier les informations, cette combinaison de nom prenom n'existe pas <br/>
+    Veuillez verifier les informations, cette combinaison de nom prenom n'existe pas <br />
     {% elif erreur == True %}
-    Mot de passe incorrect <br/>
+    Mot de passe incorrect <br />
     {% endif %}
     <label>Nom</label>
-    <input type="text" name="nom" required><br/>
+    <input type="text" name="nom" required><br />
 
     <label>Prenom</label>
-    <input type="text" name="prenom" required><br/>
+    <input type="text" name="prenom" required><br />
 
     <label>Mot de Passe</label>
-    <input type="password" name="mdp" required><br/>
+    <input type="password" name="mdp" required><br />
 
-    <input type="submit" value="Se Connecter"><br/>
+    <input type="submit" value="Se Connecter"><br />
 
     Pas de compte ? <a href="/register">S'Inscrire</a>
 </form>
