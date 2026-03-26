@@ -64,7 +64,8 @@ db_test_user = [
     {"id": 4, "nom": "Martin", "prenom": "Lucas", "mdp": "password"},
     {"id": 5, "nom": "Durand", "prenom": "Emma", "mdp": "chienchat"},
     {"id": 6, "nom": "Bernard", "prenom": "Hugo", "mdp": "azerty"},
-    {"id": 7, "nom": "Petit", "prenom": "Chloe", "mdp": "soleil"}
+    {"id": 7, "nom": "Petit", "prenom": "Chloe", "mdp": "soleil"},
+    {"id": 8, "nom": "Tom", "prenom": "falz", "mdp": "motdepasse"}
 ]
 
 db_test_posts = [
