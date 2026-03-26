@@ -1,5 +1,5 @@
 from flask import render_template, request, session, g, redirect
-from apps.data import get_utilisateur_par_id, creer_post
+from apps.data import get_utilisateur_par_id, creer_post, get_tous_posts
 from apps.auth import get_utilisateur, set_utilisateur
 from apps.post import liste_post_fini
 from . import app # On utilise . pour utiliser le app deja import
@@ -21,8 +21,11 @@ def charger_utilisateur():
 def index():
     if g.utilisateur is None:
         return redirect(location="/login")
+    parametres = session.get("parametres")
+    if not parametres:
+        parametres = (0,20,False,"created")
     
-    return render_template('index.html', titre='Accueil', utilisateur=g.utilisateur, posts=liste_post_fini(0,20,False,"created"))
+    return render_template('index.html', titre='Accueil', utilisateur=g.utilisateur, posts=liste_post_fini(*parametres))
 
 @app.route('/login', methods = ['POST','GET'])
 def login():
@@ -58,6 +61,20 @@ def create_post():
         contenu = request.form['contenu']
         creer_post(g.utilisateur["id"], contenu)
     return redirect("/")
+
+@app.route('/get_cle_tri', methods = ['POST'])
+def get_cle_tri():
+    min = request.form['min']
+    if min < 0:
+        min = 0
+    max = request.form['max']
+    long = len(get_tous_posts())
+    if max > long:
+        max = long
+    ordre = request.form['ordre'] # Croissant True/False
+    cle = request.form['cle']
+
+    session["parametres"] = ()
 
 #Page de test, a enlever
 @app.route('/form', methods = ['POST','GET'])

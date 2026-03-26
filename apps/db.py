@@ -1,5 +1,62 @@
 # Chere charles, ici tu va pouvoir t'amuser
 
+import sqlite3
+
+database_connection : sqlite3.Connection | None = None
+
+try:
+    database_connection = sqlite3.connect('OF_database.db')
+    print("DB Init")
+    cursor = database_connection.cursor()
+
+    cursor.execute('SELECT sqlite_version();')
+    result = cursor.fetchall()
+
+    print("SQL Version : {}".format(result[0][0]))
+
+    cursor.execute(
+        "CREATE TABLE IF NOT EXISTS users(" \
+        "USER_ID INT PRIMARY KEY," \
+        "FIRST_NAME TEXT," \
+        "SURNAME TEXT," \
+        "PASSWORD TEXT" \
+        ");"
+    )
+
+    cursor.execute(
+        f"INSERT INTO users VALUES (0, 'Villermaux-Natalini', 'Giulian', '{hash("vous_ne_saurez_jamais")}');"
+    )
+
+    cursor.execute(
+        "CREATE TABLE IF NOT EXISTS posts(" \
+        "POST_ID INT PRIMARY KEY," \
+        "AUTHOR INT," \
+        "BODY TEXT," \
+        "DATE TEXT," \
+        "FOREIGN KEY (AUTHOR) REFERENCES users(USER_ID)" \
+        ");"
+    )
+
+    cursor.execute(
+        "CREATE TABLE IF NOT EXISTS votes(" \
+        "USER_VOTE_ID INT," \
+        "POST_VOTE_ID INT," \
+        "PRIMARY KEY (USER_VOTE_ID, POST_VOTE_ID)" \
+        ");"
+    )
+
+    cursor.execute("SELECT * FROM users;")
+    users = cursor.fetchall()
+    print(users)
+
+except sqlite3.Error as error:
+    print("SQLite Error - ", error)
+
+finally:
+    if database_connection:
+        database_connection.close()
+        print("DB Connection closed")
+
 db_test_user = [
     {"id": 1, "nom": "admin", "prenom": "admin", "mdp": "vous_ne_saurez_jamais"},
     {"id": 2, "nom": "Villermaux-Natalini", "prenom": "Giulian", "mdp": "3.1415926"},
