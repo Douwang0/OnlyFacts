@@ -24,3 +24,7 @@ Giulian :
 Aide au setup du projet sur les pc de la team et decouverte du css
 # Semaine 2
 Giulian : ABS Concours General
+avancée Projet Onlyfact Tom:
+Sur autre page de test(pas sur les pages du projets, au cas où);
+    -commencement html pour la page de login( username, password avec pour chacun un logo icone et cadenas)
+    -commencement css avec mise en forme du style(couleurs, placement, etc...)
