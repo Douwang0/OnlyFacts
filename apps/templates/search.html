@@ -1,0 +1,13 @@
+<!-- Fichier exemple pour les forms -->
+{% extends "base.html" %}
+{% block content %}
+<form method="post">
+    <label>Info 1</label>
+    <input type="text" name="info">
+
+    <label>Info 2 cachée</label>
+    <input type="password" name="info_cachee">
+
+    <input type="submit" value="Envoyer">
+</form>
+{% endblock %}

@@ -1,5 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
+body {
+  background: rgb(0, 0, 0);
+  color: white
+}
+
+.posts {
+    justify-content: center;
+    align-items: center;
+}
+
+
+ /*
+
 * {
   margin: 0;
   padding: 0;
@@ -7,13 +20,7 @@
   font-family: "Poppins", sans-serif;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: seagreen;
-}
+
 
 .wrapper {
   width: 420px;
@@ -41,3 +48,6 @@ body {
   border: 2px solid rgba(255, 255, 255, .2);
   border-radius: 40px;
 }
+
+
+*/
