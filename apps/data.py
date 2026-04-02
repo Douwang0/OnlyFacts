@@ -65,9 +65,9 @@ def utilisateur_a_vote(id_utilisateur, id_post):
     return False
 
 
-def get_posts_avec_infos():
+def get_posts_avec_infos(search):
     posts_prepares = []
-
+    # INCLURE SEARCH AVEC LE SQL
     for post in db_test_posts:
 
         auteur = get_utilisateur_par_id(post["author_id"])
