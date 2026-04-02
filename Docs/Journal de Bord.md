@@ -18,16 +18,22 @@ CHANGEMENT DE GESTION DES DONNES
 AFFICHAGE DES POSTS AVEC DATE ET UPVOTES
 Post des messages
 arrondi des valeur de date
+
 # Semaine 1
+
 Giulian : 
 19/03/26
 Aide au setup du projet sur les pc de la team et decouverte du css
+
 # Semaine 2
 Giulian : ABS Concours General
 
 # Semaine 3
+
 Giulian: 
 Modif data pour accuillir le search
 Regler probleme avec le css
 Retirer un doublon de post
 Creer une page de recherche
+
+Nathan : Rajout du logo "Onflyfacts", étant un lien dans le header qui renvoie a la page principale, recadrage du logo pour ajuster la taille.
