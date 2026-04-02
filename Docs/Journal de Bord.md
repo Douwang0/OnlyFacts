@@ -24,3 +24,10 @@ Giulian :
 Aide au setup du projet sur les pc de la team et decouverte du css
 # Semaine 2
 Giulian : ABS Concours General
+
+# Semaine 3
+Giulian: 
+Modif data pour accuillir le search
+Regler probleme avec le css
+Retirer un doublon de post
+Creer une page de recherche
