@@ -4,23 +4,19 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="header">
-    <a href="">
-        <img src="{{ url_for('static', filename='OnlyFacts-removebg-preview.png') }}" class="onlyfacts-logo">
-    </a>
-    <div class="search">
-        search
-    </div>
-    <div class="header-actions">
-        header actions
-    </div>
-</div>
-<div class="sidebar">sidebar</div>
-<div class="content">content</div>
+
 
 <h1>Salut, {{ utilisateur.prenom }}!</h1>
 <hr>
 <h2>Créer un nouveau post</h2>
+
+<form action="/create_post" method="POST">
+
+    <label for="contenu">Contenu :</label><br>
+    <textarea id="contenu" name="contenu" rows="5" cols="40" required></textarea><br><br>
+
+    <input type="submit" value="Publier">
+</form>
 
 <form action="/create_post" method="POST">
 

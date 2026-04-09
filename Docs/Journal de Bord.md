@@ -18,13 +18,26 @@ CHANGEMENT DE GESTION DES DONNES
 AFFICHAGE DES POSTS AVEC DATE ET UPVOTES
 Post des messages
 arrondi des valeur de date
+
 # Semaine 1
+
 Giulian : 
 19/03/26
 Aide au setup du projet sur les pc de la team et decouverte du css
+
 # Semaine 2
 Giulian : ABS Concours General
 avancée Projet Onlyfact Tom:
 Sur autre page de test(pas sur les pages du projets, au cas où);
     -commencement html pour la page de login( username, password avec pour chacun un logo icone et cadenas)
     -commencement css avec mise en forme du style(couleurs, placement, etc...)
+
+# Semaine 3
+
+Giulian: 
+Modif data pour accuillir le search
+Regler probleme avec le css
+Retirer un doublon de post
+Creer une page de recherche
+
+Nathan : Rajout du logo "Onflyfacts", étant un lien dans le header qui renvoie a la page principale, recadrage du logo pour ajuster la taille.
