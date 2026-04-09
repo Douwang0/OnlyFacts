@@ -1,13 +1,36 @@
-<!-- Fichier exemple pour les forms -->
 {% extends "base.html" %}
 {% block content %}
-<form method="post">
-    <label>Info 1</label>
-    <input type="text" name="info">
+<form action="/filtrer" method="POST">
+    <label for="texte">Rechercher :</label>
+    <input type="text" id="texte" name="texte"><br>
 
-    <label>Info 2 cachée</label>
-    <input type="password" name="info_cachee">
+    <label for="max">Maximum :</label>
+    <input type="text" id="max" name="max"><br>
 
-    <input type="submit" value="Envoyer">
+    <input type="radio" id="croissant" name="ordre" value="croissant">
+    <label for="croissant">Croissant</label>
+    <input type="radio" id="decroissant" name="ordre" value="decroissant">
+    <label for="decroissant">Decroissant</label><br>
+
+    <input type="radio" id="created" name="cle" value="created">
+    <label for="croissant">Date</label>
+    <input type="radio" id="upvote" name="cle" value="upvote">
+    <label for="decroissant">Votes</label><br>
+
+    <input type="submit" value="Publier">
 </form>
+<form action="/reset_filtre" method="POST"> <input type="submit" value="Reset"> </form>
+ 
+<div class="posts">
+    {% for post in posts %}
+    <div class="post">
+        <h3>{{ post.auteur.prenom }}</h3>
+        <p>{{ post.body }}</p>
+        <small>{{ post.created }}</small>
+        <small>Avec {{ post.upvote }} upvotes</small>
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+
 {% endblock %}

@@ -37,3 +37,8 @@ Retirer un doublon de post
 Creer une page de recherche
 
 Nathan : Rajout du logo "Onflyfacts", étant un lien dans le header qui renvoie a la page principale, recadrage du logo pour ajuster la taille.
+
+# Semaine 4
+
+Giulian: 
+Page de recherche non testé
