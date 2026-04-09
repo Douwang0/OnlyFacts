@@ -53,6 +53,15 @@ def register():
             return redirect('/login')
     return render_template('signin.html', erreur=erreur)
 
+@app.route('/search', methods = ['GET'])
+def search():
+    if g.utilisateur is None:
+        return redirect(location="/login")
+    parametres = session.get("parametres")
+    if not parametres:
+        session["parametres"] = ("",20,False,"created")
+    
+    return render_template('search.html', titre='Recherche', utilisateur=g.utilisateur, posts=liste_post_fini(*parametres))
 
 
 @app.route('/create_post', methods = ['POST'])
@@ -62,19 +71,29 @@ def create_post():
         creer_post(g.utilisateur["id"], contenu)
     return redirect("/")
 
-@app.route('/get_cle_tri', methods = ['POST'])
-def get_cle_tri():
-    min = request.form['min']
-    if min < 0:
-        min = 0
+@app.route('/filtrer', methods = ['POST'])
+def filtrer():
+    texte = request.form["texte"]
     max = request.form['max']
+    if max < 0 or not max.isnumeric():
+        max = 0
+    else:
+        max = int(min)
+    max = request.form['max']
+
     long = len(get_tous_posts())
     if max > long:
         max = long
     ordre = request.form['ordre'] # Croissant True/False
+    if ordre == "croissant" : ordre = True
+    else: ordre = False
     cle = request.form['cle']
 
-    session["parametres"] = ()
+    session["parametres"] = (texte,min,max,ordre,cle)
+
+@app.route('/reset_filtre', methods = ['POST'])
+def reset():
+    session["parametres"] = ("",20,False,"created")
 
 #Page de test, a enlever
 @app.route('/form', methods = ['POST','GET'])

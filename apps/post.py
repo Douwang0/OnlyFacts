@@ -1,13 +1,13 @@
 from apps.data import get_posts_avec_infos,get_votes_post
 from time import time
 
-def liste_post_fini(debut = 0,fin = 20,croissant=False,cle="created",search=""):
+def liste_post_fini(fin = 20,croissant=False,cle="created",search=""):
     """Donne la liste des posts prete a etre utiliser dans la page suivant les parametres"""
     posts = get_posts_avec_infos(search)
     for post in posts:
         post["upvote"] = get_votes_post(post["id"])
     posts = tri_selection_dicos_parametre(posts,cle,croissant)
-    posts = posts[debut:fin]
+    posts = posts[:fin]
     for post in posts:
         temp = time() - post['created']
 

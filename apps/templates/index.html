@@ -10,21 +10,8 @@
 <hr>
 <h2>Créer un nouveau post</h2>
 
-<form action="/create_post" method="POST">
 
-    <label for="contenu">Contenu :</label><br>
-    <textarea id="contenu" name="contenu" rows="5" cols="40" required></textarea><br><br>
 
-    <input type="submit" value="Publier">
-</form>
-
-<form action="/create_post" method="POST">
-
-    <label for="contenu">Contenu :</label><br>
-    <textarea id="contenu" name="contenu" rows="5" cols="40" required></textarea><br><br>
-
-    <input type="submit" value="Publier">
-</form>
 <hr>
 <div class="posts">
     {% for post in posts %}
