@@ -2,6 +2,115 @@
 
 import sqlite3
 
+def ouvrir_database() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
+
+    """
+    Renvoie la connection à la database ainsi que son cursor. \n
+    -> La connection permet de créer le lien entre le code et la database. \n
+    -> Le cursor permet d'executer du code SQL sur la database. \n
+    """
+
+    try:
+        db_connection : sqlite3.Connection = sqlite3.connect("OF_database.db")
+        db_cursor : sqlite3.Cursor = db_connection.cursor()
+
+        return db_connection, db_cursor
+    
+    except sqlite3.Error as error:
+        raise error
+
+def fermer_database(db_connection : sqlite3.Connection) -> None:
+
+    """
+    Commit et ferme la connection avec la database. \n
+    A utiliser une fois les modifications finies. \n
+    """
+
+    try:
+        db_connection.commit()
+        db_connection.close()
+
+    except sqlite3.Error as error:
+        raise error
+
+def convert_utilisateur_db_dict(utilisateur) -> dict:
+
+    """
+    Convertie la forme (id,prenom,nom,mdp) de la database en {"id":id,"prenom":prenom,"nom":nom,"mdp":mdp}.
+    """
+
+    return {"id":utilisateur[0],"prenom":utilisateur[1],"nom":utilisateur[2],"mdp":utilisateur[3]}
+
+def get_utilisateurs():
+
+    """
+    Récupère tous les utilisateurs de la database. \n
+    Renvoie une liste de dictionnaire de la forme {"id":id,"prenom":prenom,"nom":nom,"mdp":mdp}.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute("SELECT * FROM users;")
+        users = db_cursor.fetchall()
+
+        fermer_database(db_connection)
+
+        l_users : list = []
+
+        for user in users:
+            l_users.append(convert_utilisateur_db_dict(user))
+
+        return l_users
+
+    except sqlite3.Error as error:
+        raise error
+
+def get_utilisateur_par_id(id_utilisateur : int) -> dict:
+
+    """
+    Renvoie les infos d'un utilisateur à l'aide de son id. \n
+    """
+    
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        
+        db_cursor.execute(f'SELECT * FROM users WHERE USER_ID={id_utilisateur};')
+        user = db_cursor.fetchone()
+        fermer_database(db_connection)
+        return convert_utilisateur_db_dict(user)
+    
+    except sqlite3.Error as error:
+        raise error
+
+def ajouter_utilisateur(nv_utilisateur):
+
+    """
+    Ajoute des nouveaux utilisateurs dans la table users.
+    nv_utilisateurs est un tuple de la forme (FIRST_NAME : str, LAST_NAME : str, PASSWORD : hash)
+    """
+    
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        
+        prenom = nv_utilisateur[0]
+        nom = nv_utilisateur[1]
+        mdp = nv_utilisateur[2]
+
+        db_cursor.execute(f'INSERT INTO users (FIRST_NAME,LAST_NAME,PASSWORD) VALUES (\'{prenom}\',\'{nom}\',\'{mdp}\');')
+
+        fermer_database(db_connection)
+    
+    except sqlite3.Error as error:
+        raise error
+    
+#ajouter_utilisateur([("Prenom", "Nom", hash("MDP"))])
+print(get_utilisateurs())
+print(get_utilisateur_par_id(1))
+
+"""
 database_connection : sqlite3.Connection | None = None
 
 try:
@@ -9,28 +118,23 @@ try:
     print("DB Init")
     cursor = database_connection.cursor()
 
-    cursor.execute('SELECT sqlite_version();')
-    result = cursor.fetchall()
-
-    print("SQL Version : {}".format(result[0][0]))
+    cursor.execute("DROP TABLE users;")
+    cursor.execute("DROP TABLE posts;")
+    cursor.execute("DROP TABLE votes;")
 
     cursor.execute(
         "CREATE TABLE IF NOT EXISTS users(" \
-        "USER_ID INT PRIMARY KEY," \
+        "USER_ID INTEGER PRIMARY KEY," \
         "FIRST_NAME TEXT," \
-        "SURNAME TEXT," \
+        "LAST_NAME TEXT," \
         "PASSWORD TEXT" \
         ");"
     )
 
     cursor.execute(
-        f"INSERT INTO users VALUES (0, 'Villermaux-Natalini', 'Giulian', '{hash("vous_ne_saurez_jamais")}');"
-    )
-
-    cursor.execute(
         "CREATE TABLE IF NOT EXISTS posts(" \
-        "POST_ID INT PRIMARY KEY," \
-        "AUTHOR INT," \
+        "POST_ID INTEGER PRIMARY KEY," \
+        "AUTHOR INTEGER," \
         "BODY TEXT," \
         "DATE TEXT," \
         "FOREIGN KEY (AUTHOR) REFERENCES users(USER_ID)" \
@@ -39,23 +143,15 @@ try:
 
     cursor.execute(
         "CREATE TABLE IF NOT EXISTS votes(" \
-        "USER_VOTE_ID INT," \
-        "POST_VOTE_ID INT," \
+        "USER_VOTE_ID INTEGER," \
+        "POST_VOTE_ID INTEGER," \
         "PRIMARY KEY (USER_VOTE_ID, POST_VOTE_ID)" \
         ");"
     )
 
-    cursor.execute("SELECT * FROM users;")
-    users = cursor.fetchall()
-    print(users)
-
 except sqlite3.Error as error:
     print("SQLite Error - ", error)
-
-finally:
-    if database_connection:
-        database_connection.close()
-        print("DB Connection closed")
+"""
 
 db_test_user = [
     {"id": 1, "nom": "admin", "prenom": "admin", "mdp": "vous_ne_saurez_jamais"},
