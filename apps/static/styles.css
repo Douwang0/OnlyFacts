@@ -8,8 +8,13 @@ body {
 .posts {
     justify-content: center;
     align-items: center;
+
 }
 
+#lien_profil {
+  font-size:10px;
+	text-align: right;
+}
 
  /*
 
