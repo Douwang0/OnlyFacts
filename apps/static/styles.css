@@ -11,11 +11,15 @@ body {
 
 }
 
-#lien_profil {
-  font-size:10px;
-	text-align: right;
+#navbar {
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
-
+#navbar a {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
  /*
 
 * {

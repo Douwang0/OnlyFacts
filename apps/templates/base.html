@@ -9,7 +9,11 @@
         {% endif %}
     </head>
    <body>
-        <div> <a href="/index"><img src="{{ url_for('static', filename='images/OnlyFacts-removebg-preview.png') }}"> <a href="/login">Changer de compte</a> <a href="/profil" id="lien_profil">Mon Compte</a>
+    <div class ="Navbar" id="navbar"> 
+        <a href="/index"><img src="{{ url_for('static', filename='images/OnlyFacts-removebg-preview.png') }}"> 
+        <a href="/login">Changer de compte</a> 
+        <a href="/profil" id="lien_profil">Mon Profil</a> 
+    </div>
         <hr>
         {% block content %}{% endblock %}
     </body>

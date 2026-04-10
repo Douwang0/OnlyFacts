@@ -69,7 +69,7 @@ def get_posts_avec_infos(texte):
     posts_prepares = []
     post_avec_mots = rechercher_post(texte)
     
-    for post in post_avec_mots:
+    for post in db_test_posts:
 
         auteur = get_utilisateur_par_id(post["author_id"])
         votes = get_votes_post(post["id"])
