@@ -216,6 +216,49 @@ def get_tous_posts():
     
     except sqlite3.Error as error:
         raise error
+    
+def get_posts_avec_infos(texte):
+    posts_prepares = []
+    posts_avec_mots = rechercher_posts(texte)
+    
+    for post in posts_avec_mots:
+
+        auteur = get_utilisateur_par_id(post["author_id"])
+        votes = get_votes_post(post["id"])
+
+        posts_prepares.append({
+            "id": post["id"],
+            "body": post["body"],
+            "created": post["created"],
+            "auteur": auteur,
+            "votes": votes
+        })
+
+    return posts_prepares
+
+def rechercher_posts(texte):
+
+    """
+    Renvoie tous les posts similaire à 'texte'.\n
+    Renvoie une liste vide s'il n'y en a aucun.
+    """
+    
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT * FROM posts WHERE BODY LIKE \'%{texte}%\';')
+        posts = db_cursor.fetchall()
+        fermer_database(db_connection)
+
+        l_posts : list = []
+
+        for post in posts:
+            l_posts.append(convert_post_dict(post))
+
+        return l_posts
+    
+    except sqlite3.Error as error:
+        raise error
 
 # FIN POST
 
@@ -230,7 +273,7 @@ def utilisateur_a_vote(id_utilisateur, id_post):
     db_connection, db_cursor = ouvrir_database()
 
     try:
-        db_cursor.execute(f'INSERT INTO votes (USER_VOTE_ID,POST_VOTE_ID) values (\'{id_utilisateur}\',\'{id_post}\')')
+        db_cursor.execute(f'INSERT INTO votes (USER_VOTE_ID,POST_VOTE_ID) values (\'{id_utilisateur}\',\'{id_post}\');')
         fermer_database(db_connection)
 
     except sqlite3.Error as error:
@@ -264,7 +307,10 @@ print(get_utilisateur_par_info("Charles", "Martinez"))
 #creer_post(2, "Ici on aime tous Umamusume.")
 print(get_tous_posts())
 #utilisateur_a_vote(1,1)
-print(get_votes_post(1))
+print(get_votes_post(2))
+
+
+print(get_posts_avec_infos("Umamusume"))
 
 """
 database_connection : sqlite3.Connection | None = None
