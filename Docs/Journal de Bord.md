@@ -50,9 +50,14 @@ Page de recherche non testé
 10/04/26
 Page de recherche terminée
 Refactor de toute les fonction de data pour convenir a sqlite
+9/4/26
 Charles:
 Mise à jour des interactions avec la base de données.
 - ouverture/fermeture de la db
 - ajout d'utilisateur avec id automatique
 - getter pour tous les utilisateurs connus dans la db
 - recherche d'utilisateur par id
+10/4/26
+Migration des fonctions de data vers db pour avoir l'interaction python/sqlite3
+- get_utilisateur_par_info
+- toutes les fonctions posts et votes
