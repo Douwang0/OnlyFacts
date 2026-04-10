@@ -1,6 +1,41 @@
 # Chere charles, ici tu va pouvoir t'amuser
 
 import sqlite3
+from time import time
+
+# REGION INFO TABLE
+
+"""
+
+TABLE users
+---
+USER_ID INTEGER PRIMARY KEY
+FIRST_NAME TEXT
+LAST_NAME TEXT
+PASSWORD TEXT
+---
+
+TABLE posts
+---
+POST_ID INTEGER PRIMARY KEY
+AUTHOR INTEGER
+BODY TEXT
+DATE TEXT
+FOREIGN KEY (AUTHOR) REFERENCES users(USER_ID)
+---
+
+TABLE votes
+---
+USER_VOTE_ID INTEGER
+POST_VOTE_ID INTEGER
+PRIMARY KEY (USER_VOTE_ID, POST_VOTE_ID)
+---
+
+"""
+
+# FIN INFO TABLE
+
+# REGION CORE DATABASE
 
 def ouvrir_database() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
 
@@ -33,7 +68,11 @@ def fermer_database(db_connection : sqlite3.Connection) -> None:
     except sqlite3.Error as error:
         raise error
 
-def convert_utilisateur_db_dict(utilisateur) -> dict:
+# FIN CORE DATABASE
+
+# REGION UTILISATEUR
+
+def convert_utilisateur_dict(utilisateur) -> dict:
 
     """
     Convertie la forme (id,prenom,nom,mdp) de la database en {"id":id,"prenom":prenom,"nom":nom,"mdp":mdp}.
@@ -45,7 +84,8 @@ def get_utilisateurs():
 
     """
     Récupère tous les utilisateurs de la database. \n
-    Renvoie une liste de dictionnaire de la forme {"id":id,"prenom":prenom,"nom":nom,"mdp":mdp}.
+    Renvoie une liste de dictionnaire de la forme {"id":id,"prenom":prenom,"nom":nom,"mdp":mdp}. \n
+    Renvoie une liste vide s'il n'y en a pas.
     """
 
     db_connection, db_cursor = ouvrir_database()
@@ -53,13 +93,12 @@ def get_utilisateurs():
     try:
         db_cursor.execute("SELECT * FROM users;")
         users = db_cursor.fetchall()
-
         fermer_database(db_connection)
 
         l_users : list = []
 
         for user in users:
-            l_users.append(convert_utilisateur_db_dict(user))
+            l_users.append(convert_utilisateur_dict(user))
 
         return l_users
 
@@ -70,45 +109,162 @@ def get_utilisateur_par_id(id_utilisateur : int) -> dict:
 
     """
     Renvoie les infos d'un utilisateur à l'aide de son id. \n
+    Renvoie un None s'il n'existe pas.
     """
     
     db_connection, db_cursor = ouvrir_database()
 
     try:
-        
         db_cursor.execute(f'SELECT * FROM users WHERE USER_ID={id_utilisateur};')
         user = db_cursor.fetchone()
         fermer_database(db_connection)
-        return convert_utilisateur_db_dict(user)
+
+        return user if user == None else convert_utilisateur_dict(user)
     
     except sqlite3.Error as error:
         raise error
 
-def ajouter_utilisateur(nv_utilisateur):
+def get_utilisateur_par_info(prenom, nom):
 
     """
-    Ajoute des nouveaux utilisateurs dans la table users.
-    nv_utilisateurs est un tuple de la forme (FIRST_NAME : str, LAST_NAME : str, PASSWORD : hash)
+    Renvoie les infos d'un utilisateur à l'aide de son nom et prénom.\n
+    S'il n'y en a aucun, renvoie une liste vide.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT * FROM users WHERE FIRST_NAME=\'{prenom}\' AND LAST_NAME=\'{nom}\'')
+        users = db_cursor.fetchall()
+        fermer_database(db_connection)
+
+        l_users : list = []
+
+        for user in users:
+            l_users.append(convert_utilisateur_dict(user))
+
+        return l_users
+
+    except sqlite3.Error as error:
+        raise error
+
+def ajouter_utilisateur(prenom : str, nom : str, mdp):
+
+    """
+    Ajoute un nouvel utilisateur dans la table users.
     """
     
     db_connection, db_cursor = ouvrir_database()
 
     try:
-        
-        prenom = nv_utilisateur[0]
-        nom = nv_utilisateur[1]
-        mdp = nv_utilisateur[2]
-
         db_cursor.execute(f'INSERT INTO users (FIRST_NAME,LAST_NAME,PASSWORD) VALUES (\'{prenom}\',\'{nom}\',\'{mdp}\');')
-
         fermer_database(db_connection)
     
     except sqlite3.Error as error:
         raise error
+
+# FIN UTILISATEUR
+
+# REGION POST
+
+def convert_post_dict(post) -> dict:
+
+    """
+    Convertie un post de la forme (id,author_id,body,created) en un dictionnaire {"id","author_id","body","created"}.
+    """
+
+    return {"id":post[0],"author_id":post[1],"body":post[2],"created":post[3]}
+
+def creer_post(id_utilisateur : int, contenu : str):
+
+    """
+    Creer un nouveau post et l'ajoute dans la database.\n
+    Le post est rajouté à la table posts.\n
+    """
     
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'INSERT INTO posts (AUTHOR,BODY,DATE) values (\'{id_utilisateur}\',\'{contenu}\',\'{time()}\')')
+        fermer_database(db_connection)
+
+    except sqlite3.Error as error:
+        raise error
+
+def get_tous_posts():
+
+    """
+    Renvoie tous les posts de la table posts sous la forme d'une liste de dictionnaires :\n
+    {"id":int,"author_id":int,"body":str,"created":float}\n
+    Renvoie une liste vide s'il n'y en a pas.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute("SELECT * FROM posts")
+
+        posts = db_cursor.fetchall()
+        fermer_database(db_connection)
+
+        l_posts : list = []
+
+        for post in posts:
+            l_posts.append(convert_post_dict(post))
+
+        return l_posts
+    
+    except sqlite3.Error as error:
+        raise error
+
+# FIN POST
+
+# REGION VOTE
+
+def utilisateur_a_vote(id_utilisateur, id_post):
+
+    """
+    Rajoute un vote de l'utilisateur dans la table votes.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'INSERT INTO votes (USER_VOTE_ID,POST_VOTE_ID) values (\'{id_utilisateur}\',\'{id_post}\')')
+        fermer_database(db_connection)
+
+    except sqlite3.Error as error:
+        raise error
+
+def get_votes_post(id_post):
+
+    """
+    Renvoie le nombre de votes qu'a reçu un post.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT COUNT(POST_VOTE_ID) FROM votes WHERE POST_VOTE_ID={id_post};')
+        votes = db_cursor.fetchone()[0]
+        fermer_database(db_connection)
+
+        return votes
+    
+    except sqlite3.Error as error:
+        raise error
+
+# FIN VOTE
+
 #ajouter_utilisateur([("Prenom", "Nom", hash("MDP"))])
 print(get_utilisateurs())
 print(get_utilisateur_par_id(1))
+print(get_utilisateur_par_info("Charles", "Martinez"))
+
+#creer_post(2, "Ici on aime tous Umamusume.")
+print(get_tous_posts())
+#utilisateur_a_vote(1,1)
+print(get_votes_post(1))
 
 """
 database_connection : sqlite3.Connection | None = None
