@@ -91,4 +91,5 @@ def filtrer():
 
 @app.route('/reset_filtre', methods = ['POST'])
 def reset():
-    session["parametres"] = ("",20,False,"created")
+    session["parametres"] = DEFAULT_PARAMETRES
+    return redirect("/search")
