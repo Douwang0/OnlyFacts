@@ -53,6 +53,7 @@ Refactor de toute les fonction de data pour convenir a sqlite
 Implementation terminée,
 Recherche avec texte
 Autofill des parametres
+retirer les bases de test et fonction de test
 9/4/26
 Charles:
 Mise à jour des interactions avec la base de données.
