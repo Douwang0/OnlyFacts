@@ -45,7 +45,11 @@ Nathan : Rajout du logo "Onflyfacts", étant un lien dans le header qui renvoie 
 # Semaine 4
 
 Giulian: 
+9/04/26
 Page de recherche non testé
+10/04/26
+Page de recherche terminée
+Refactor de toute les fonction de data pour convenir a sqlite
 Charles:
 Mise à jour des interactions avec la base de données.
 - ouverture/fermeture de la db

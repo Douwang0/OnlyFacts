@@ -5,6 +5,8 @@
     Veuillez verifier les informations, cette combinaison de nom prenom n'existe pas <br />
     {% elif erreur == True %}
     Mot de passe incorrect <br />
+    {% elif erreur == "erreur_bd" %}
+    Notre base de donnée a renvoyé une erreur, Veuillez contacter un administateur <br />
     {% endif %}
     <label>Nom</label>
     <input type="text" name="nom" required><br />

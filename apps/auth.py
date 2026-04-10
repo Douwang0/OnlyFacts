@@ -1,15 +1,27 @@
 from apps.mdp import crypter, check
-from apps.data import recherche_utilisateur,ajouter_utilisateur
+from apps.db import get_utilisateur_par_info, ajouter_utilisateur
 
+def recherche_utilisateur(nom,prenom):
+    """Prend une liste d'utilisateur par nom prenom et renvoie soit un seul utilisateur soit None si aucun trouvé soit "Plusieurs" si il en existe plusieurs dans la database """
+    u = get_utilisateur_par_info(nom,prenom)
+    if u is []:
+        return None
+    elif len(u) > 1:
+        return "Plusieurs"
+    else:
+        return u[0]
 
 def get_utilisateur(nom,prenom,mdp): 
     """ Donne l'id utilisateur si les infos sont correctes, si combi n'exisite pas 'Aucun,et si mdp Incorect False'"""
+
     utilisateur = recherche_utilisateur(nom,prenom)
-    if utilisateur:
+    if utilisateur is not None:
         if check(mdp,utilisateur["mdp"]):
             return utilisateur["id"]
         else:
             return False
+    elif utilisateur == "Plusieurs":
+        return "erreur_bd"
     else:
         return "Aucun"
     
