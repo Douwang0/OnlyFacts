@@ -46,3 +46,9 @@ Nathan : Rajout du logo "Onflyfacts", étant un lien dans le header qui renvoie 
 
 Giulian: 
 Page de recherche non testé
+Charles:
+Mise à jour des interactions avec la base de données.
+- ouverture/fermeture de la db
+- ajout d'utilisateur avec id automatique
+- getter pour tous les utilisateurs connus dans la db
+- recherche d'utilisateur par id
