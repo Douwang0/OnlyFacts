@@ -4,7 +4,7 @@ from apps.db import get_utilisateur_par_info, ajouter_utilisateur
 def recherche_utilisateur(nom,prenom):
     """Prend une liste d'utilisateur par nom prenom et renvoie soit un seul utilisateur soit None si aucun trouvé soit "Plusieurs" si il en existe plusieurs dans la database """
     u = get_utilisateur_par_info(nom,prenom)
-    if u is []:
+    if u == []:
         return None
     elif len(u) > 1:
         return "Plusieurs"

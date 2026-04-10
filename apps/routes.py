@@ -1,5 +1,5 @@
 from flask import render_template, request, session, g, redirect
-from apps.data import get_utilisateur_par_id, creer_post, get_tous_posts
+from apps.db import get_utilisateur_par_id, creer_post, get_tous_posts
 from apps.auth import get_utilisateur, set_utilisateur
 from apps.post import liste_post_fini
 from . import app # On utilise . pour utiliser le app deja import
@@ -59,7 +59,7 @@ def search():
         session["parametres"] = DEFAULT_PARAMETRES
     parametres = session.get("parametres")
 
-    return render_template('search.html', titre='Recherche', utilisateur=g.utilisateur, posts=liste_post_fini(*parametres))
+    return render_template('search.html', titre='Recherche', utilisateur=g.utilisateur, posts=liste_post_fini(*parametres), parametres=parametres)
 
 
 @app.route('/create_post', methods = ['POST'])

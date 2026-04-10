@@ -50,6 +50,9 @@ Page de recherche non testé
 10/04/26
 Page de recherche terminée
 Refactor de toute les fonction de data pour convenir a sqlite
+Implementation terminée,
+Recherche avec texte
+Autofill des parametres
 9/4/26
 Charles:
 Mise à jour des interactions avec la base de données.

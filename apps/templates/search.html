@@ -2,22 +2,22 @@
 {% block content %}
 <form action="/filtrer" method="POST">
     <label for="texte">Rechercher :</label>
-    <input type="text" id="texte" name="texte"><br>
+    <input type="text" id="texte" name="texte" value="{{ parametres[0] }}"><br>
 
     <label for="max">Maximum :</label>
-    <input type="text" id="max" name="max"><br>
+    <input type="text" id="max" name="max" value="{{ parametres[1] }}"><br>
 
-    <input type="radio" id="croissant" name="ordre" value="croissant">
+    <input type="radio" id="croissant" name="ordre" value="croissant" {% if parametres[2] %}checked{% endif %}>
     <label for="croissant">Croissant</label>
-    <input type="radio" id="decroissant" name="ordre" value="decroissant">
+    <input type="radio" id="decroissant" name="ordre" value="decroissant" {% if not parametres[2] %}checked{% endif %}>
     <label for="decroissant">Decroissant</label><br>
 
-    <input type="radio" id="created" name="cle" value="created">
+    <input type="radio" id="created" name="cle" value="created" {% if parametres[3] == "created" %}checked{% endif %}>
     <label for="croissant">Date</label>
-    <input type="radio" id="upvote" name="cle" value="upvote">
+    <input type="radio" id="votes" name="cle" value="votes" {% if parametres[3] == "votes" %}checked{% endif %}>
     <label for="decroissant">Votes</label><br>
 
-    <input type="submit" value="Publier">
+    <input type="submit" value="Filtrer">
 </form>
 <form action="/reset_filtre" method="POST"> <input type="submit" value="Reset"> </form>
  

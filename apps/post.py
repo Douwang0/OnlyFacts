@@ -1,4 +1,4 @@
-from apps.data import get_posts_avec_infos,get_votes_post
+from apps.db import get_posts_avec_infos
 from time import time
 
 def liste_post_fini(search="",fin = 20,croissant=False,cle="created"):
@@ -6,12 +6,10 @@ def liste_post_fini(search="",fin = 20,croissant=False,cle="created"):
     if fin == 0:
         return []
     posts = get_posts_avec_infos(search)
-    for post in posts:
-        post["upvote"] = get_votes_post(post["id"])
     posts = tri_selection_dicos_parametre(posts,cle,croissant)
     posts = posts[:fin]
     for post in posts:
-        temp = time() - post['created']
+        temp = time() - float(post['created'])
 
         if temp >= 0:
             debut = "Il y a "
