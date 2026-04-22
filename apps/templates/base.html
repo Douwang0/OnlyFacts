@@ -1,3 +1,4 @@
+<!--
 <!doctype html>
 <html>
     <head>
@@ -15,6 +16,33 @@
         <a href="/search">Recherche</a> 
         <a href="/profil" id="lien_profil">Mon Profil</a> 
     </div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>
+-->
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static',
+filename='styles.css') }}">
+        {% if titre %}
+        <title>{{ titre }} - OnlyFacts</title>
+        {% else %}
+        <title>Bienvenue dans OnlyFacts!</title>
+        {% endif %}
+    </head>
+   <body>
+        <header>
+            <img class="logo" src="OnlyFacts_removebg-preview.png" alt="logo">
+            <nav>
+                <ul class="nav_liens">
+                    <li><a href="#">Changer de compte</a></li>
+                    <li><a href="#">Recherche</a></li>
+                </ul>
+            </nav>
+            <a class="profil" href="#"><button>Mon Profil</button></a>
+        </header>
         <hr>
         {% block content %}{% endblock %}
     </body>
