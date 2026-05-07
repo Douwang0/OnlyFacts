@@ -1,8 +1,10 @@
 from flask import render_template, request, session, g, redirect
-from apps.data import get_utilisateur_par_id, creer_post, get_tous_posts
+from apps.db import get_utilisateur_par_id, creer_post, get_tous_posts
 from apps.auth import get_utilisateur, set_utilisateur
 from apps.post import liste_post_fini
 from . import app # On utilise . pour utiliser le app deja import
+
+DEFAULT_PARAMETRES = ("",20,False,"created")
 
 @app.before_request
 def charger_utilisateur():
@@ -20,12 +22,8 @@ def charger_utilisateur():
 @app.route('/index')
 def index():
     if g.utilisateur is None:
-        return redirect(location="/login")
-    parametres = session.get("parametres")
-    if not parametres:
-        parametres = (0,20,False,"created")
-    
-    return render_template('index.html', titre='Accueil', utilisateur=g.utilisateur, posts=liste_post_fini(*parametres))
+        return redirect(location="/login")    
+    return render_template('index.html', titre='Accueil', utilisateur=g.utilisateur, posts=liste_post_fini())
 
 @app.route('/login', methods = ['POST','GET'])
 def login():
@@ -53,6 +51,15 @@ def register():
             return redirect('/login')
     return render_template('signin.html', erreur=erreur)
 
+@app.route('/search', methods = ['GET'])
+def search():
+    if g.utilisateur is None:
+        return redirect(location="/login")
+    if not session.get("parametres"):
+        session["parametres"] = DEFAULT_PARAMETRES
+    parametres = session.get("parametres")
+
+    return render_template('search.html', titre='Recherche', utilisateur=g.utilisateur, posts=liste_post_fini(*parametres), parametres=parametres)
 
 
 @app.route('/create_post', methods = ['POST'])
@@ -62,25 +69,27 @@ def create_post():
         creer_post(g.utilisateur["id"], contenu)
     return redirect("/")
 
-@app.route('/get_cle_tri', methods = ['POST'])
-def get_cle_tri():
-    min = request.form['min']
-    if min < 0:
-        min = 0
+@app.route('/filtrer', methods = ['POST'])
+def filtrer():
+    texte = request.form["texte"]
     max = request.form['max']
+    if not isinstance(max,str) or not max.isnumeric() or int(max) < 0:
+        max = DEFAULT_PARAMETRES[1]
+    else:
+        max = int(max)
+
     long = len(get_tous_posts())
     if max > long:
         max = long
     ordre = request.form['ordre'] # Croissant True/False
+    if ordre == "croissant" : ordre = True
+    else: ordre = False
     cle = request.form['cle']
 
-    session["parametres"] = ()
+    session["parametres"] = (texte,max,ordre,cle)
+    return redirect("/search")
 
-#Page de test, a enlever
-@app.route('/form', methods = ['POST','GET'])
-def form():
-    if request.method == 'POST':
-        info = request.form['info']
-        info_cachee = request.form['info_cachee']
-
-    return render_template('form.html')
+@app.route('/reset_filtre', methods = ['POST'])
+def reset():
+    session["parametres"] = DEFAULT_PARAMETRES
+    return redirect("/search")
