@@ -426,10 +426,10 @@ def est_ami(id_utilisateur, id_ami):
 
 #print(get_posts_avec_infos("Umamusume"))
 
-ajouter_ami(0,1)
-print(est_ami(1,0))
-supprimer_ami(1,0)
-print(est_ami(1,0))
+#ajouter_ami(0,1)
+#print(est_ami(1,0))
+#supprimer_ami(1,0)
+#print(est_ami(1,0))
 
 """
 database_connection : sqlite3.Connection | None = None

@@ -1,8 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500");
 
-body {
-  background: rgb(0, 0, 0);
-  color: white
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #24252A;
+    font-family: "Montserrat", sans-serif;
+    color: #edf0f1;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
 }
 
 .posts {
@@ -11,16 +24,42 @@ body {
 
 }
 
-#navbar {
-  display: flex;
-  justify-content: left;
-  align-items: center;
+.logo {
+    cursor: pointer;
 }
-#navbar a {
-  color: white;
-  text-decoration: none;
-  margin-right: 20px;
 
+.nav_links {
+    display: flex;
+    align-items: center;
+    gap: 100px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav_links li a {
+
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease 0s;
+}
+
+.nav_links li a:hover {
+    color: #0088a9
+}
+
+button {
+    padding: 9px 25px;
+    background-color: rgb(210, 31, 31);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+    background-color: rgba(0, 136, 169, 0.8);
 }
 
  /*

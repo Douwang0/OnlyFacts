@@ -43,7 +43,7 @@ def login():
 def profile():
     if g.utilisateur is None:
         return redirect(location="/login")
-    return render_template('profile.html', titre='Profil', utilisateur=g.utilisateur)
+    return render_template('profil.html', titre='Profil', utilisateur=g.utilisateur)
 
 @app.route('/register', methods = ['POST','GET'])
 def register():
