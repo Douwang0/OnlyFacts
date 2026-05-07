@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+<<<<<<< HEAD
+=======
 <form method="post">
     {% if erreur == "Aucun" %}
     Veuillez verifier les informations, cette combinaison de nom prenom n'existe pas <br />
@@ -10,15 +12,27 @@
     {% endif %}
     <label>Nom</label>
     <input type="text" name="nom" required><br />
+>>>>>>> e8af961a8c98902e8078d8595288ead85768d7f2
 
-    <label>Prenom</label>
-    <input type="text" name="prenom" required><br />
+<body class="login">
+    <form method="post">
+        {% if erreur == "Aucun" %}
+        Veuillez verifier les informations, cette combinaison de nom prenom n'existe pas <br />
+        {% elif erreur == True %}
+        Mot de passe incorrect <br />
+        {% endif %}
+        <label>Nom</label>
+        <input type="text" name="nom" required><br />
 
-    <label>Mot de Passe</label>
-    <input type="password" name="mdp" required><br />
+        <label>Prenom</label>
+        <input type="text" name="prenom" required><br />
 
-    <input type="submit" value="Se Connecter"><br />
+        <label>Mot de Passe</label>
+        <input type="password" name="mdp" required><br />
 
-    Pas de compte ? <a href="/register">S'Inscrire</a>
-</form>
+        <input type="submit" value="Se Connecter"><br />
+
+        Pas de compte ? <a href="/register">S'Inscrire</a>
+    </form>
+</body>
 {% endblock %}
