@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form method="post">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+
+
+
+<body class="login">
     {% if erreur == "Aucun" %}
     Veuillez verifier les informations, cette combinaison de nom prenom n'existe pas <br />
     {% elif erreur == True %}
@@ -9,26 +17,29 @@
     {% elif erreur == "erreur_bd" %}
     Notre base de donnée a renvoyé une erreur, Veuillez contacter un administateur <br />
     {% endif %}
-
-<body class="login">
+  <div class="wrapper">
     <form method="post">
-        {% if erreur == "Aucun" %}
-        Veuillez verifier les informations, cette combinaison de nom prenom n'existe pas <br />
-        {% elif erreur == True %}
-        Mot de passe incorrect <br />
-        {% endif %}
-        <label>Nom</label>
-        <input type="text" name="nom" required><br />
+      <h1>Login</h1>
+      <div class="input-box">
+        <input type="text" placeholder="Nom" required name="nom">
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Prenom" required name="prenom">
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" required name="mdp">
+        <i class='bx bxs-lock-alt'></i>
+      </div>
 
-        <label>Prenom</label>
-        <input type="text" name="prenom" required><br />
+      <button type="submit" class="btn">Login</button>
 
-        <label>Mot de Passe</label>
-        <input type="password" name="mdp" required><br />
-
-        <input type="submit" value="Se Connecter"><br />
-
-        Pas de compte ? <a href="/register">S'Inscrire</a>
+      <div class="register-link">
+        <p>Pas de compte ? <a href="/register">S'Inscrire</a></p>
+      </div>
     </form>
+  </div>
+
 </body>
 {% endblock %}
