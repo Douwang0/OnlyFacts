@@ -5,7 +5,7 @@
     <input type="text" id="texte" name="texte" value="{{ parametres[0] }}"><br>
 
     <label for="max">Maximum :</label>
-    <input type="text" id="max" name="max" value="{{ parametres[1] }}"><br>
+    <input type="text" id="max" name="max" value="{{ parametres[1] }}" required><br>
 
     <input type="radio" id="croissant" name="ordre" value="croissant" {% if parametres[2] %}checked{% endif %}>
     <label for="croissant">Croissant</label>
