@@ -41,3 +41,13 @@ Retirer un doublon de post
 Creer une page de recherche
 
 Nathan : Rajout du logo "Onflyfacts", étant un lien dans le header qui renvoie a la page principale, recadrage du logo pour ajuster la taille.
+
+Tom : Absent
+
+# Semaine 4
+
+Tom : Avancement sur l'interface web du login(html et css):
+  -avancement sur les parties html et css (html pour le fonctionnement de la page du login et css pour le style de cet même page)
+  -ajout d'un style(arrière-plan, ecriture, logo cadenas et logo profil pour les connexions)
+
+
