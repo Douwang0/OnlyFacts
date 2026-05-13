@@ -348,10 +348,10 @@ def get_post_par_id(id_post):
         post = db_cursor.fetchone()
         fermer_database(db_connection)
 
-        for post_i in range(len(post)):
-            post[post_i] = convert_post_dict(post[post_i])
-        
-        return post
+        if post is None:
+            return None
+
+        return convert_post_dict(post)
 
     except sqlite3.Error as error:
         raise error
@@ -580,4 +580,3 @@ def est_ami(id_utilisateur, id_ami):
 #print(est_ami(1,0))
 #print(get_tous_les_amis(1))
 #print(get_tous_les_amis(2))
-print(get_tous_les_amis(3))
