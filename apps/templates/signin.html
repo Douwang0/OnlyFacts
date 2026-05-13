@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<body class="login">
     {% if erreur == "Existant" %}
     Cette personne existe deja dans notre base de donnée, <br/>
     Voulez vous vous <a href="/login">conneter</a> ? <br/>
@@ -38,4 +39,5 @@
     </form>
   </div>
 </form>
+</body>
 {% endblock %}
