@@ -91,3 +91,5 @@ lien vers profile de post
 depuis profile ajouter ami (sans requete)
 Charles
 Recherche de post par id
+Get tous les amis d'un utilisateur par id
+Fonction de recherche BFS du plus court chemin entre deux personnes d'ami en ami
