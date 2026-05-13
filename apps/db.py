@@ -200,12 +200,10 @@ def get_utilisateur_par_info(prenom, nom):
         users = db_cursor.fetchall()
         fermer_database(db_connection)
 
-        l_users : list = []
+        for user_i in range(len(users)):
+            users[user_i] = convert_utilisateur_dict(users[user_i])
 
-        for user in users:
-            l_users.append(convert_utilisateur_dict(user))
-
-        return l_users
+        return users
 
     except sqlite3.Error as error:
         raise error
@@ -269,12 +267,10 @@ def get_tous_posts():
         posts = db_cursor.fetchall()
         fermer_database(db_connection)
 
-        l_posts : list = []
+        for post_i in range(len(posts)):
+            posts[post_i] = convert_post_dict(posts[post_i])
 
-        for post in posts:
-            l_posts.append(convert_post_dict(post))
-
-        return l_posts
+        return posts
     
     except sqlite3.Error as error:
         raise error
@@ -312,12 +308,10 @@ def rechercher_posts(texte):
         posts = db_cursor.fetchall()
         fermer_database(db_connection)
 
-        l_posts : list = []
+        for post_i in range(len(posts)):
+            posts[post_i] = convert_post_dict(posts[post_i])
 
-        for post in posts:
-            l_posts.append(convert_post_dict(post))
-
-        return l_posts
+        return posts
     
     except sqlite3.Error as error:
         raise error
@@ -334,8 +328,32 @@ def get_post_par_id(id_post):
         db_cursor.execute(f'SELECT * FROM posts WHERE POST_ID = \'{id_post}\';')
         post = db_cursor.fetchone()
         fermer_database(db_connection)
+
+        for post_i in range(len(post)):
+            post[post_i] = convert_post_dict(post[post_i])
         
         return post
+
+    except sqlite3.Error as error:
+        raise error
+
+def get_tous_post_par_autheur(id_autheur):
+
+    """
+    Renvoie un post à l'aide de l'id de son autheur dans la database.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT * FROM posts WHERE AUTHOR = \'{id_autheur}\';')
+        posts = db_cursor.fetchall()
+        fermer_database(db_connection)
+
+        for post_i in range(len(posts)):
+            posts[post_i] = convert_post_dict(posts[post_i])
+        
+        return posts
 
     except sqlite3.Error as error:
         raise error
@@ -534,6 +552,7 @@ def est_ami(id_utilisateur, id_ami):
 #print(get_a_deja_vote(1,1))
 
 #print(get_posts_avec_infos("Umamusume"))
+#print(get_tous_post_par_autheur(3))
 
 #ajouter_ami(1,3)
 #ajouter_ami(2,3)
