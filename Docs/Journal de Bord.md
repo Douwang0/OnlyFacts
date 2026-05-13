@@ -70,3 +70,15 @@ Avancement sur l'interface web du login(html et css):
   -avancement sur les parties html et css (html pour le fonctionnement de la page du login et css pour le style de cet même page)
   -ajout d'un style(arrière-plan, ecriture, logo cadenas et logo profil pour les connexions)
 
+# Semaine 5
+Giulian
+07/05/26
+Aide a l'equipe pour le css
+Merge de deux travaux css pour generaliser sur le site
+Ajout de la page profil dans les routes
+
+# Semaine 6
+Giulian 
+13/05/26
+recheche sur profil differant par url
+modification de profil

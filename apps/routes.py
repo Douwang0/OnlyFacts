@@ -39,11 +39,24 @@ def login():
             return redirect('/')
     return render_template('login.html', erreur=erreur)
 
-@app.route('/profile', methods = ['GET'])
-def profile():
+@app.route('/profile/<id>', methods = ['GET'])
+def profile(id):
     if g.utilisateur is None:
         return redirect(location="/login")
-    return render_template('profil.html', titre='Profil', utilisateur=g.utilisateur)
+    if id == -1:
+        u_profil = g.utilisateur
+    else:
+        u_profil = get_utilisateur_par_id(int(id))
+
+    
+    if u_profil is None:
+        return redirect(location="/login")
+    else:
+        return render_template('profil.html', titre='Profil', utilisateur=u_profil)
+
+@app.route('/profile', methods = ['GET'])
+def self_profile():
+    return profile(-1)
 
 @app.route('/register', methods = ['POST','GET'])
 def register():
