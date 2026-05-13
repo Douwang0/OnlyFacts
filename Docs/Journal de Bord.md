@@ -69,6 +69,7 @@ Tom :
 Avancement sur l'interface web du login(html et css):
   -avancement sur les parties html et css (html pour le fonctionnement de la page du login et css pour le style de cet même page)
   -ajout d'un style(arrière-plan, ecriture, logo cadenas et logo profil pour les connexions)
+<<<<<<< HEAD
 Nathan :
 - Création de la page profil
 - Ajout d'effet pour le header
@@ -81,3 +82,6 @@ Nathan :
 - Revisite du style du header 
 - Revisite du style des barres de recherches et des boutons
 - Amélioration du profil
+=======
+
+>>>>>>> e86b3982d7368a5e36dd075de749af6419ca9187

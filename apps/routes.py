@@ -39,6 +39,12 @@ def login():
             return redirect('/')
     return render_template('login.html', erreur=erreur)
 
+@app.route('/profile', methods = ['GET'])
+def profile():
+    if g.utilisateur is None:
+        return redirect(location="/login")
+    return render_template('profil.html', titre='Profil', utilisateur=g.utilisateur)
+
 @app.route('/register', methods = ['POST','GET'])
 def register():
     erreur = False

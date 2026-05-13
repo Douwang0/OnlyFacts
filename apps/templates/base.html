@@ -9,13 +9,15 @@
         {% endif %}
     </head>
    <body>
-    <div class ="Navbar" id="navbar"> 
-        <a href="/index"><img src="{{ url_for('static', filename='images/OnlyFacts-removebg-preview.png') }}"> 
-        <a href="/login">Changer de compte</a> 
-        <a href="/search">Recherche</a> 
-        <a href="/profil" id="lien_profil">Mon Profil</a> 
-    </div>
+    <header>
+    <ul class ="nav_links"> 
+        <li><a href="/index"><img src="{{ url_for('static', filename='images/OnlyFacts-removebg-preview.png') }}"></li>
+        <li><a href="/login">Changer de compte</a> </li>
+        <li><a href="/search">Recherche</a> </li>
+    </ul>
+    <a class="cta" href="/profile"><button>Mon Profil</button></a>
         <hr>
-        {% block content %}{% endblock %}
+    </header>
+    {% block content %}{% endblock %}
     </body>
 </html>

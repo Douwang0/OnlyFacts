@@ -277,7 +277,38 @@ def utilisateur_a_vote(id_utilisateur, id_post):
     except sqlite3.Error as error:
         raise error
     
-# Il faudrait aussi une fonction pour retirer un vote et une fonction pour vérifier si un utilisateur a déjà voté pour un post. TODO
+def supprimer_vote(id_utilisateur, id_post):
+
+    """
+    Supprime un vote de l'utilisateur dans la table votes.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'DELETE FROM votes WHERE USER_VOTE_ID = \'{id_utilisateur}\' AND POST_VOTE_ID = \'{id_post}\';')
+        fermer_database(db_connection)
+
+    except sqlite3.Error as error:
+        raise error
+
+def get_a_deja_vote(id_utilisateur, id_post):
+
+    """
+    Renvoie True si l'utilisateur a déjà voté pour le post.
+    False sinon.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT 1 FROM votes WHERE USER_VOTE_ID = \'{id_utilisateur}\' AND POST_VOTE_ID = \'{id_post}\' LIMIT 1;')
+        exist = db_cursor.fetchone() is not None
+        fermer_database(db_connection)
+        return exist
+
+    except sqlite3.Error as error:
+        raise error
 
 def get_votes_post(id_post):
 
@@ -299,18 +330,106 @@ def get_votes_post(id_post):
 
 # FIN VOTE
 
+# DEBUT AMI
+
+# bool ami, ajouter ami, supp ami TODO
+
+def ajouter_ami(id_utilisateur, id_ami):
+    
+    """
+    Ajoute l'amitié (id_utilisateur, id_ami) dans la table friends.
+    Ne fait rien si (id_ami, id_utilisateur) existe déjà (amitié déjà existante).
+    """
+
+    if id_utilisateur == id_ami: return
+
+    # Amitié déjà dans la table
+    if est_ami(id_utilisateur, id_ami): return
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'INSERT INTO friends (USER_ID, FRIEND_ID) values (\'{id_utilisateur}\',\'{id_ami}\');')
+        fermer_database(db_connection)
+
+    except sqlite3.Error as error:
+        raise error
+
+def supprimer_ami(id_utilisateur, id_ami):
+
+    """
+    Supprime un ami de l'utilisateur dans la table friends.
+    """
+
+    if id_utilisateur == id_ami: return
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'DELETE FROM friends WHERE USER_ID = \'{id_utilisateur}\' AND FRIEND_ID = \'{id_ami}\';')
+        db_cursor.execute(f'DELETE FROM friends WHERE USER_ID = \'{id_ami}\' AND FRIEND_ID = \'{id_utilisateur}\';')
+        fermer_database(db_connection)
+
+    except sqlite3.Error as error:
+        raise error
+
+def est_ami(id_utilisateur, id_ami):
+
+    """
+    Renvoie True si l'amitié (id_utilisateur, id_ami) ou (id_ami, id_utilisateur) existe.
+    Sinon False.
+    """
+
+    if id_utilisateur == id_ami: return False
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        
+        db_cursor.execute(f'SELECT 1 FROM friends WHERE USER_ID = \'{id_utilisateur}\' AND FRIEND_ID = \'{id_ami}\' LIMIT 1;')
+        db_cursor.execute(f'SELECT 1 FROM friends WHERE USER_ID = \'{id_utilisateur}\' AND FRIEND_ID = \'{id_ami}\' LIMIT 1;')
+
+        results = db_cursor.fetchall()
+
+        if results == []: 
+            fermer_database(db_connection)
+            return False
+        
+        amitie = False
+        for case in results:
+            print(case)
+            if case is not None:
+                amitie = True
+
+        fermer_database(db_connection)
+        return amitie
+
+    except sqlite3.Error as error:
+        raise error
+
+
+# FIN AMI
+
 #ajouter_utilisateur([("Prenom", "Nom", hash("MDP"))])
-print(get_utilisateurs())
-print(get_utilisateur_par_id(1))
-print(get_utilisateur_par_info("Charles", "Martinez"))
+#print(get_utilisateurs())
+#print(get_utilisateur_par_id(1))
+#print(get_utilisateur_par_info("Charles", "Martinez"))
 
 #creer_post(2, "Ici on aime tous Umamusume.")
-print(get_tous_posts())
+#print(get_tous_posts())
 #utilisateur_a_vote(1,1)
-print(get_votes_post(2))
+#print(get_votes_post(1))
+#print(get_a_deja_vote(1,1))
+#supprimer_vote(1,1)
+#print(get_votes_post(1))
+#print(get_a_deja_vote(1,1))
 
+#print(get_posts_avec_infos("Umamusume"))
 
-print(get_posts_avec_infos("Umamusume"))
+#ajouter_ami(0,1)
+#print(est_ami(1,0))
+#supprimer_ami(1,0)
+#print(est_ami(1,0))
 
 """
 database_connection : sqlite3.Connection | None = None
@@ -320,9 +439,10 @@ try:
     print("DB Init")
     cursor = database_connection.cursor()
 
-    cursor.execute("DROP TABLE users;")
-    cursor.execute("DROP TABLE posts;")
-    cursor.execute("DROP TABLE votes;")
+    #cursor.execute("DROP TABLE users;")
+    #cursor.execute("DROP TABLE posts;")
+    #cursor.execute("DROP TABLE votes;")
+    #cursor.execute("DROP TABLE friends;")
 
     cursor.execute(
         "CREATE TABLE IF NOT EXISTS users(" \
@@ -351,7 +471,14 @@ try:
         ");"
     )
 
+    cursor.execute(
+        "CREATE TABLE IF NOT EXISTS friends(" \
+        "USER_ID INTEGER," \
+        "FRIEND_ID INTEGER," \
+        "PRIMARY KEY (USER_ID, FRIEND_ID)" \
+        ");"
+    )
+
 except sqlite3.Error as error:
     print("SQLite Error - ", error)
 """
-
