@@ -52,7 +52,7 @@ def profile(id):
     if u_profil is None:
         return redirect(location="/login")
     else:
-        return render_template('profil.html', titre='Profil', utilisateur=u_profil)
+        return render_template('profil.html', titre='Profil', utilisateur=u_profil, moncompte=(u_profil["id"] == g.utilisateur["id"]))
 
 @app.route('/profile', methods = ['GET'])
 def self_profile():
