@@ -1,16 +1,28 @@
+/* IMPORTS */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500");
 
-
+/* RESET PROPRE */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+/* STYLE GLOBAL */
+body {
     background-color: #24252A;
     font-family: "Montserrat", sans-serif;
     color: #edf0f1;
 }
 
+/* CONTAINER GENERAL */
+.container {
+    width: 80%;
+    margin: auto;
+}
+
+/* HEADER */
 header {
     display: flex;
     justify-content: space-between;
@@ -18,86 +30,124 @@ header {
     padding: 30px 10%;
 }
 
-.posts {
-    justify-content: center;
-    align-items: center;
-
-}
-
-.logo {
-    cursor: pointer;
-}
-
+/* NAVIGATION */
 .nav_links {
     display: flex;
     align-items: center;
     gap: 100px;
     list-style: none;
-    margin: 0;
-    padding: 0;
 }
 
 .nav_links li a {
-
     font-weight: 500;
     font-size: 16px;
     text-decoration: none;
-    transition: all 0.3s ease 0s;
+    transition: all 0.3s ease;
+    color: #edf0f1;
 }
 
 .nav_links li a:hover {
-    color: #0088a9
+    color: #0088a9;
 }
 
+/* LOGO */
+.logo {
+    cursor: pointer;
+}
+
+/* BUTTON */
 button {
     padding: 9px 25px;
     background-color: rgb(210, 31, 31);
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    transition: all 0.3s ease 0s;
+    transition: all 0.3s ease;
+    color: white;
 }
 
 button:hover {
     background-color: rgba(0, 136, 169, 0.8);
 }
 
- /*
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+/* POSTS (NE PAS centrer par défaut) */
+.posts {
+    margin-top: 20px;
 }
 
+/* ================= LOGIN PAGE ================= */
 
+/* UNIQUEMENT pour la page login */
+.login {
+    display: flex;
+    flex-direction: column;
+}
 
+.login .wrapper {
+    margin: auto;
+}
+
+/* FORM WRAPPER (fusion corrigée) */
 .wrapper {
-  width: 420px;
-  background: purple;
-  color: #fff;
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    padding: 30px 40px;
 }
 
-.wrapper h1 {
-  font-size: 36px;
-  text-align: center;
-}
-
+/* INPUT BOX */
 .wrapper .input-box {
-  width: 100%;
-  height: 50px;
-  margin: 30px 0;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
 }
 
+/* INPUT */
 .input-box input {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  border: 2px solid rgba(255, 255, 255, .2);
-  border-radius: 40px;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    outline: none;
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px;
 }
 
+/* BUTTON LOGIN */
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
 
-*/
+/* REGISTER LINK */
+.wrapper .register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-link p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}

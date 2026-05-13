@@ -69,7 +69,6 @@ Tom :
 Avancement sur l'interface web du login(html et css):
   -avancement sur les parties html et css (html pour le fonctionnement de la page du login et css pour le style de cet même page)
   -ajout d'un style(arrière-plan, ecriture, logo cadenas et logo profil pour les connexions)
-<<<<<<< HEAD
 Nathan :
 - Création de la page profil
 - Ajout d'effet pour le header
@@ -82,6 +81,26 @@ Nathan :
 - Revisite du style du header 
 - Revisite du style des barres de recherches et des boutons
 - Amélioration du profil
-=======
 
->>>>>>> e86b3982d7368a5e36dd075de749af6419ca9187
+Giulian
+07/05/26
+Aide a l'equipe pour le css
+Merge de deux travaux css pour generaliser sur le site
+Ajout de la page profil dans les routes
+Charles
+Ajout du système d'amitié
+Mise en place d'une table pour l'amitié
+
+# Semaine 6
+Giulian 
+13/05/26
+recheche sur profil differant par url
+modification de profil
+TODO : modif post pour bouton like
+call bouton like
+lien vers profile de post
+depuis profile ajouter ami (sans requete)
+Charles
+Recherche de post par id
+Get tous les amis d'un utilisateur par id
+Fonction de recherche BFS du plus court chemin entre deux personnes d'ami en ami

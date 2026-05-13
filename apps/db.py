@@ -29,7 +29,71 @@ POST_VOTE_ID INTEGER
 PRIMARY KEY (USER_VOTE_ID, POST_VOTE_ID)
 ---
 
+TABLE friend
+---
+USER_ID INTERGER
+FRIEND_ID INTEGER
+PRIMARY KEY (USER_ID, FRIEND_ID)
+
 """
+
+def init_database(reset : bool = False):
+    
+    """
+    Code permettant d'initialiser / créer la database ou bien de vérifier son intégrité.
+    reset : bool -> remet la database à 0.
+    """
+
+    database_connection : sqlite3.Connection | None = None
+
+    try:
+        database_connection = sqlite3.connect('OF_database.db')
+        print("DB Init")
+        cursor = database_connection.cursor()
+
+        if reset:
+            cursor.execute("DROP TABLE users;")
+            cursor.execute("DROP TABLE posts;")
+            cursor.execute("DROP TABLE votes;")
+            cursor.execute("DROP TABLE friends;")
+
+        cursor.execute(
+            "CREATE TABLE IF NOT EXISTS users(" \
+            "USER_ID INTEGER PRIMARY KEY," \
+            "FIRST_NAME TEXT," \
+            "LAST_NAME TEXT," \
+            "PASSWORD TEXT" \
+            ");"
+        )
+
+        cursor.execute(
+            "CREATE TABLE IF NOT EXISTS posts(" \
+            "POST_ID INTEGER PRIMARY KEY," \
+            "AUTHOR INTEGER," \
+            "BODY TEXT," \
+            "DATE TEXT," \
+            "FOREIGN KEY (AUTHOR) REFERENCES users(USER_ID)" \
+            ");"
+        )
+
+        cursor.execute(
+            "CREATE TABLE IF NOT EXISTS votes(" \
+            "USER_VOTE_ID INTEGER," \
+            "POST_VOTE_ID INTEGER," \
+            "PRIMARY KEY (USER_VOTE_ID, POST_VOTE_ID)" \
+            ");"
+        )
+
+        cursor.execute(
+            "CREATE TABLE IF NOT EXISTS friends(" \
+            "USER_ID INTEGER," \
+            "FRIEND_ID INTEGER," \
+            "PRIMARY KEY (USER_ID, FRIEND_ID)" \
+            ");"
+        )
+
+    except sqlite3.Error as error:
+        print("SQLite Error - ", error)
 
 # FIN INFO TABLE
 
@@ -257,6 +321,24 @@ def rechercher_posts(texte):
     
     except sqlite3.Error as error:
         raise error
+    
+def get_post_par_id(id_post):
+
+    """
+    Renvoie un post à l'aide de son id dans la database.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT * FROM posts WHERE POST_ID = \'{id_post}\';')
+        post = db_cursor.fetchone()
+        fermer_database(db_connection)
+        
+        return post
+
+    except sqlite3.Error as error:
+        raise error
 
 # FIN POST
 
@@ -332,8 +414,6 @@ def get_votes_post(id_post):
 
 # DEBUT AMI
 
-# bool ami, ajouter ami, supp ami TODO
-
 def ajouter_ami(id_utilisateur, id_ami):
     
     """
@@ -372,6 +452,33 @@ def supprimer_ami(id_utilisateur, id_ami):
 
     except sqlite3.Error as error:
         raise error
+    
+def get_tous_les_amis(id_utilisateur):
+
+    """
+    Renvoie une liste d'id des amis de l'utilisateur.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT * FROM friends WHERE USER_ID = \'{id_utilisateur}\' OR FRIEND_ID = \'{id_utilisateur}\';')
+        friend_list : list = db_cursor.fetchall()
+        fermer_database(db_connection)
+
+        for friendship_id in range(len(friend_list)):
+
+            id_friendship_one =  friend_list[friendship_id][0]
+            id_friendship_two = friend_list[friendship_id][1]
+
+            friend = id_friendship_one if id_friendship_two == id_utilisateur else id_friendship_two
+
+            friend_list[friendship_id] = friend
+
+        return friend_list
+
+    except sqlite3.Error as error:
+        raise error
 
 def est_ami(id_utilisateur, id_ami):
 
@@ -385,11 +492,14 @@ def est_ami(id_utilisateur, id_ami):
     db_connection, db_cursor = ouvrir_database()
 
     try:
-        
-        db_cursor.execute(f'SELECT 1 FROM friends WHERE USER_ID = \'{id_utilisateur}\' AND FRIEND_ID = \'{id_ami}\' LIMIT 1;')
-        db_cursor.execute(f'SELECT 1 FROM friends WHERE USER_ID = \'{id_utilisateur}\' AND FRIEND_ID = \'{id_ami}\' LIMIT 1;')
 
-        results = db_cursor.fetchall()
+        results = []
+        
+        db_cursor.execute(f'SELECT * FROM friends WHERE USER_ID = \'{id_utilisateur}\' AND FRIEND_ID = \'{id_ami}\';')
+        results.append(db_cursor.fetchone())
+
+        db_cursor.execute(f'SELECT * FROM friends WHERE USER_ID = \'{id_ami}\' AND FRIEND_ID = \'{id_utilisateur}\';')
+        results.append(db_cursor.fetchone())
 
         if results == []: 
             fermer_database(db_connection)
@@ -397,7 +507,6 @@ def est_ami(id_utilisateur, id_ami):
         
         amitie = False
         for case in results:
-            print(case)
             if case is not None:
                 amitie = True
 
@@ -406,7 +515,6 @@ def est_ami(id_utilisateur, id_ami):
 
     except sqlite3.Error as error:
         raise error
-
 
 # FIN AMI
 
@@ -417,6 +525,7 @@ def est_ami(id_utilisateur, id_ami):
 
 #creer_post(2, "Ici on aime tous Umamusume.")
 #print(get_tous_posts())
+#print(get_post_par_id(1))
 #utilisateur_a_vote(1,1)
 #print(get_votes_post(1))
 #print(get_a_deja_vote(1,1))
@@ -426,59 +535,11 @@ def est_ami(id_utilisateur, id_ami):
 
 #print(get_posts_avec_infos("Umamusume"))
 
-#ajouter_ami(0,1)
+#ajouter_ami(1,3)
+#ajouter_ami(2,3)
 #print(est_ami(1,0))
 #supprimer_ami(1,0)
 #print(est_ami(1,0))
-
-"""
-database_connection : sqlite3.Connection | None = None
-
-try:
-    database_connection = sqlite3.connect('OF_database.db')
-    print("DB Init")
-    cursor = database_connection.cursor()
-
-    #cursor.execute("DROP TABLE users;")
-    #cursor.execute("DROP TABLE posts;")
-    #cursor.execute("DROP TABLE votes;")
-    #cursor.execute("DROP TABLE friends;")
-
-    cursor.execute(
-        "CREATE TABLE IF NOT EXISTS users(" \
-        "USER_ID INTEGER PRIMARY KEY," \
-        "FIRST_NAME TEXT," \
-        "LAST_NAME TEXT," \
-        "PASSWORD TEXT" \
-        ");"
-    )
-
-    cursor.execute(
-        "CREATE TABLE IF NOT EXISTS posts(" \
-        "POST_ID INTEGER PRIMARY KEY," \
-        "AUTHOR INTEGER," \
-        "BODY TEXT," \
-        "DATE TEXT," \
-        "FOREIGN KEY (AUTHOR) REFERENCES users(USER_ID)" \
-        ");"
-    )
-
-    cursor.execute(
-        "CREATE TABLE IF NOT EXISTS votes(" \
-        "USER_VOTE_ID INTEGER," \
-        "POST_VOTE_ID INTEGER," \
-        "PRIMARY KEY (USER_VOTE_ID, POST_VOTE_ID)" \
-        ");"
-    )
-
-    cursor.execute(
-        "CREATE TABLE IF NOT EXISTS friends(" \
-        "USER_ID INTEGER," \
-        "FRIEND_ID INTEGER," \
-        "PRIMARY KEY (USER_ID, FRIEND_ID)" \
-        ");"
-    )
-
-except sqlite3.Error as error:
-    print("SQLite Error - ", error)
-"""
+#print(get_tous_les_amis(1))
+#print(get_tous_les_amis(2))
+#print(get_tous_les_amis(3))
