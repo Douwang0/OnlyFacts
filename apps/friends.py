@@ -1,4 +1,4 @@
-from db import est_ami, get_tous_les_amis
+from apps.db import est_ami, get_tous_les_amis
 
 def get_lien_minimum(id_utilisateur, id_personne):
 

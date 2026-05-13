@@ -1,7 +1,8 @@
 from flask import render_template, request, session, g, redirect
-from apps.db import get_utilisateur_par_id, creer_post, get_tous_posts, get_a_deja_vote, utilisateur_a_vote, supprimer_vote
+from apps.db import get_utilisateur_par_id, creer_post, get_tous_posts, get_a_deja_vote, utilisateur_a_vote, supprimer_vote, est_ami, ajouter_ami, supprimer_ami, get_tous_les_amis, get_tous_post_par_auteur
 from apps.auth import get_utilisateur, set_utilisateur
 from apps.post import liste_post_fini
+from apps.friends import get_lien_minimum
 from . import app # On utilise . pour utiliser le app deja import
 
 DEFAULT_PARAMETRES = ("",20,False,"created")
@@ -52,7 +53,7 @@ def profile(id):
     if u_profil is None:
         return redirect(location="/login")
     else:
-        return render_template('profil.html', titre='Profil', utilisateur=u_profil, moncompte=(u_profil["id"] == g.utilisateur["id"]))
+        return render_template('profil.html', titre='Profil', utilisateur=u_profil, moncompte=(u_profil["id"] == g.utilisateur["id"]), len_amis=len(get_tous_les_amis(u_profil["id"])), est_ami=est_ami(g.utilisateur["id"], u_profil["id"]), posts_utilisateur=get_tous_post_par_auteur(utilisateur_id=u_profil["id"]),lien = [get_utilisateur_par_id(i) for i in get_lien_minimum(g.utilisateur["id"],u_profil["id"])])
 
 @app.route('/profile', methods = ['GET'])
 def self_profile():
@@ -88,14 +89,7 @@ def create_post():
         creer_post(g.utilisateur["id"], contenu)
     return redirect("/")
 
-@app.route('/upvote/index/<int:post_id>', methods = ['POST'])
-def upvote_index(post_id):
-    return upvote(post_id,"/index")
-
-@app.route('/upvote/search/<int:post_id>', methods = ['POST'])
-def upvote_search(post_id):
-    return upvote(post_id,"/search")
-
+@app.route('/upvote/<string:redirect_url>/<int:post_id>', methods = ['POST'])
 def upvote(post_id, redirect_url):
     if g.utilisateur is None:
         return redirect(location="/login")
@@ -105,6 +99,17 @@ def upvote(post_id, redirect_url):
         utilisateur_a_vote(g.utilisateur["id"], post_id)
     return redirect(redirect_url)
 
+@app.route('/ami/<int:user_id>', methods = ['POST'])
+def ami(user_id):
+    if g.utilisateur is None:
+        return redirect(location="/login")
+    if user_id == g.utilisateur["id"]:
+        return redirect("/profile")
+    if est_ami(g.utilisateur["id"], user_id):
+        supprimer_ami(g.utilisateur["id"], user_id)
+    else:
+        ajouter_ami(g.utilisateur["id"], user_id)
+    return redirect("/profile")
 
 @app.route('/filtrer', methods = ['POST'])
 def filtrer():

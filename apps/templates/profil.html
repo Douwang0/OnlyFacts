@@ -1,13 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% if moncompte %}
-<h1><strong>Mon Compte</strong></h1><p>pas {{ utilisateur.prenom }}? <a href="/login">Changer de compte</a></p>
-<br>
-{% else %}
-<h1><strong>Compte du magnifique {{ utilisateur.prenom }}</strong></h1>
-<br>
+<div class="profil-header">
+    {% if moncompte %}
+    <h1><strong>Mon Compte</strong></h1>
+    <p>Pas {{ utilisateur.prenom }} ? <a href="/login">Changer de compte</a></p>
+    {% else %}
+    <h1><strong>Compte de {{ utilisateur.prenom }} {{ utilisateur.nom }}</strong></h1>
+    {% endif %}
+</div>
 
-{% endif %}
+<div class="profil-details">
+    <p><strong>Nom complet :</strong> {{ utilisateur.nom }} {{ utilisateur.prenom }}</p>
+    <p><strong>ID utilisateur :</strong> {{ utilisateur.id }}</p>
+    <p><strong>Nombre d'amis :</strong> {{ len_amis }}</p>
+    {% if not moncompte %}
+        <p><strong>État de l'amitié :</strong>
+            {% if est_ami %}
+                Vous êtes amis.
+            {% else %}
+                Vous n'êtes pas encore amis.
+            {% endif %}
+        </p>
+        <form action="/ami/{{ utilisateur.id }}" method="post" style="display:inline-block; margin-top:0.5rem;">
+            <button type="submit">{% if est_ami %}Supprimer l'ami{% else %}Ajouter en ami{% endif %}</button>
+        </form>
+    {% endif %}
+</div>
+
+<div class="profil-friends-path">
+    <h2>Chemin vers ce profil</h2>
+    {% if lien %}
+    <p>
+        {% for utilisateur_lien in lien %}
+            <strong>{{ utilisateur_lien.prenom }} {{ utilisateur_lien.nom }}</strong>{% if not loop.last %} &rarr; {% endif %}
+        {% endfor %}
+    </p>
+    {% else %}
+    <p>Aucun chemin d'amitié disponible.</p>
+    {% endif %}
+</div>
+
+<div class="profil-posts">
+    <h2>Publications de {{ utilisateur.prenom }}</h2>
+    {% if posts_utilisateur %}
+        <ul>
+            {% for post in posts_utilisateur %}
+                <li>
+                    <p>{{ post.body }}</p>
+                    <small>{{ post.created }}</small>
+                    <small>Avec {{ post.votes }} upvotes</small>
+                    <form action="/upvote/profile/{{ post.id }}" method="POST" style="display:inline;">
+                        <button type="submit">Upvote</button>
+                    </form>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune publication à afficher.</p>
+    {% endif %}
+</div>
 
 {% endblock %}
