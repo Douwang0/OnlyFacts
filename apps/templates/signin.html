@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="post">
     {% if erreur == "Existant" %}
     Cette personne existe deja dans notre base de donnée, <br/>
     Voulez vous vous <a href="/login">conneter</a> ? <br/>
@@ -11,20 +10,32 @@
     {% elif erreur == "Difference Mdp" %}
     Vos mots de passes ne sont pas les meme, veuillez réessayer <br/>
     {% endif %}
-    <label>Nom</label>
-    <input type="text" name="nom" required> <br/>
+    <div class="wrapper">
+    <form method="post">
+      <h1>Register</h1>
+      <div class="input-box">
+        <input type="text" placeholder="Nom" required name="nom">
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Prenom" required name="prenom">
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" required name="mdp">
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" required name="mdp_verif">
+        <i class='bx bxs-lock-alt'></i>
+      </div>
 
-    <label>Prenom</label>
-    <input type="text" name="prenom" required> <br/>
+      <button type="submit" class="btn">Login</button>
 
-    <label>Mot de Passe</label>
-    <input type="password" name="mdp" required> <br/>
-
-    <label>Mot de Passe (Verification)</label>
-    <input type="password" name="mdp_verif" required> <br/>
-
-    <input type="submit" value="S'Inscrire"> <br/>
-
-    Deja un compte ? <a href="/login">Se connecter</a>
+      <div class="register-link">
+        <p>Deja un compte ? <a href="/login">Se connecter</a></p>
+      </div>
+    </form>
+  </div>
 </form>
 {% endblock %}
