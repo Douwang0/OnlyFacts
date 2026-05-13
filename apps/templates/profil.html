@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if moncompte %}
+<h1><strong>Mon Compte</strong></h1><p>pas {{ utilisateur.prenom }}? <a href="/login">Changer de compte</a></p>
+<br>
+{% else %}
+<h1><strong>Compte du magnifique {{ utilisateur.prenom }}</strong></h1>
+<br>
 
-<h1><strong>Mon Compte</strong></h1>
-<h2>Compte de <strong>{{ utilisateur.prenom }}</strong> </h2> <p>pas {{ utilisateur.prenom }}? <a href="/login">Changer de compte</a></p>
-
-<p>"Votre magnifique bio!"</p>
-
-
+{% endif %}
 
 {% endblock %}
