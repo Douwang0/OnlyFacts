@@ -82,3 +82,7 @@ Giulian
 13/05/26
 recheche sur profil differant par url
 modification de profil
+TODO : modif post pour bouton like
+call bouton like
+lien vers profile de post
+depuis profile ajouter ami (sans requete)
