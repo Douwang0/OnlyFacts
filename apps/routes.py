@@ -1,5 +1,5 @@
 from flask import render_template, request, session, g, redirect
-from apps.db import get_utilisateur_par_id, creer_post, get_tous_posts
+from apps.db import get_utilisateur_par_id, creer_post, get_tous_posts, get_a_deja_vote, utilisateur_a_vote, supprimer_vote
 from apps.auth import get_utilisateur, set_utilisateur
 from apps.post import liste_post_fini
 from . import app # On utilise . pour utiliser le app deja import
@@ -87,6 +87,24 @@ def create_post():
         contenu = request.form['contenu']
         creer_post(g.utilisateur["id"], contenu)
     return redirect("/")
+
+@app.route('/upvote/index/<int:post_id>', methods = ['POST'])
+def upvote_index(post_id):
+    return upvote(post_id,"/index")
+
+@app.route('/upvote/search/<int:post_id>', methods = ['POST'])
+def upvote_search(post_id):
+    return upvote(post_id,"/search")
+
+def upvote(post_id, redirect_url):
+    if g.utilisateur is None:
+        return redirect(location="/login")
+    if get_a_deja_vote(g.utilisateur["id"], post_id):
+        supprimer_vote(g.utilisateur["id"], post_id)
+    else:
+        utilisateur_a_vote(g.utilisateur["id"], post_id)
+    return redirect(redirect_url)
+
 
 @app.route('/filtrer', methods = ['POST'])
 def filtrer():
