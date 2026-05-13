@@ -29,6 +29,12 @@ POST_VOTE_ID INTEGER
 PRIMARY KEY (USER_VOTE_ID, POST_VOTE_ID)
 ---
 
+TABLE friend
+---
+USER_ID INTERGER
+FRIEND_ID INTEGER
+PRIMARY KEY (USER_ID, FRIEND_ID)
+
 """
 
 def init_database(reset : bool = False):
@@ -315,6 +321,24 @@ def rechercher_posts(texte):
     
     except sqlite3.Error as error:
         raise error
+    
+def get_post_par_id(id_post):
+
+    """
+    Renvoie un post à l'aide de son id dans la database.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT * FROM posts WHERE POST_ID = \'{id_post}\';')
+        post = db_cursor.fetchone()
+        fermer_database(db_connection)
+        
+        return post
+
+    except sqlite3.Error as error:
+        raise error
 
 # FIN POST
 
@@ -476,6 +500,7 @@ def est_ami(id_utilisateur, id_ami):
 
 #creer_post(2, "Ici on aime tous Umamusume.")
 #print(get_tous_posts())
+#print(get_post_par_id(1))
 #utilisateur_a_vote(1,1)
 #print(get_votes_post(1))
 #print(get_a_deja_vote(1,1))

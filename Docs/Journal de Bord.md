@@ -76,6 +76,9 @@ Giulian
 Aide a l'equipe pour le css
 Merge de deux travaux css pour generaliser sur le site
 Ajout de la page profil dans les routes
+Charles
+Ajout du système d'amitié
+Mise en place d'une table pour l'amitié
 
 # Semaine 6
 Giulian 
@@ -86,3 +89,5 @@ TODO : modif post pour bouton like
 call bouton like
 lien vers profile de post
 depuis profile ajouter ami (sans requete)
+Charles
+Recherche de post par id
