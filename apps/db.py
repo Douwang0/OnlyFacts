@@ -414,8 +414,6 @@ def get_votes_post(id_post):
 
 # DEBUT AMI
 
-# bool ami, ajouter ami, supp ami TODO
-
 def ajouter_ami(id_utilisateur, id_ami):
     
     """
@@ -451,6 +449,33 @@ def supprimer_ami(id_utilisateur, id_ami):
         db_cursor.execute(f'DELETE FROM friends WHERE USER_ID = \'{id_utilisateur}\' AND FRIEND_ID = \'{id_ami}\';')
         db_cursor.execute(f'DELETE FROM friends WHERE USER_ID = \'{id_ami}\' AND FRIEND_ID = \'{id_utilisateur}\';')
         fermer_database(db_connection)
+
+    except sqlite3.Error as error:
+        raise error
+    
+def get_tous_les_amis(id_utilisateur):
+
+    """
+    Renvoie une liste d'id des amis de l'utilisateur.
+    """
+
+    db_connection, db_cursor = ouvrir_database()
+
+    try:
+        db_cursor.execute(f'SELECT * FROM friends WHERE USER_ID = \'{id_utilisateur}\' OR FRIEND_ID = \'{id_utilisateur}\';')
+        friend_list : list = db_cursor.fetchall()
+        fermer_database(db_connection)
+
+        for friendship_id in range(len(friend_list)):
+
+            id_friendship_one =  friend_list[friendship_id][0]
+            id_friendship_two = friend_list[friendship_id][1]
+
+            friend = id_friendship_one if id_friendship_two == id_utilisateur else id_friendship_two
+
+            friend_list[friendship_id] = friend
+
+        return friend_list
 
     except sqlite3.Error as error:
         raise error
@@ -510,7 +535,11 @@ def est_ami(id_utilisateur, id_ami):
 
 #print(get_posts_avec_infos("Umamusume"))
 
-#ajouter_ami(0,1)
+#ajouter_ami(1,3)
+#ajouter_ami(2,3)
 #print(est_ami(1,0))
 #supprimer_ami(1,0)
 #print(est_ami(1,0))
+#print(get_tous_les_amis(1))
+#print(get_tous_les_amis(2))
+#print(get_tous_les_amis(3))
