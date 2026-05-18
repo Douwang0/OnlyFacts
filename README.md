@@ -1,1 +1,0 @@
-Toute la documentation est dans le repertoire Docs

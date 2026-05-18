@@ -1,3 +1,4 @@
-# Documentation technique – Far From Bankruptcy
+# Documentation technique – OnlyFacts
 
 ## Architecture du projet
+Voir shema

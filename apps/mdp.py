@@ -6,7 +6,7 @@ ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
 
 # TODO : faire la fonction avec de l'encryption
 def crypter(mot : str) -> int:
-    """Crypte le mdp de facon a ce qu'on ne puisse pas retrouver la var initiale"""
+    """Crypte le mdp de facon a ce qu'on ne puisse pas retrouver la var initiale NON FONCTIONNELLE POUR LE MOMENT""" 
     return mot 
 
 def check(val, vrai_hash): return crypter(val) == vrai_hash
