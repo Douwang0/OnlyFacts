@@ -294,6 +294,25 @@ def get_posts_avec_infos(texte):
 
     return posts_prepares
 
+def get_posts_avec_infos_auteur(search="", utilisateur_id=None):
+    posts_prepares = []
+    posts_avec_mots = get_tous_post_par_auteur(utilisateur_id)
+    
+    for post in posts_avec_mots:
+
+        auteur = get_utilisateur_par_id(post["author_id"])
+        votes = get_votes_post(post["id"])
+
+        posts_prepares.append({
+            "id": post["id"],
+            "body": post["body"],
+            "created": post["created"],
+            "auteur": auteur,
+            "votes": votes
+        })
+
+    return posts_prepares
+
 def rechercher_posts(texte):
 
     """
@@ -329,15 +348,15 @@ def get_post_par_id(id_post):
         post = db_cursor.fetchone()
         fermer_database(db_connection)
 
-        for post_i in range(len(post)):
-            post[post_i] = convert_post_dict(post[post_i])
-        
-        return post
+        if post is None:
+            return None
+
+        return convert_post_dict(post)
 
     except sqlite3.Error as error:
         raise error
 
-def get_tous_post_par_autheur(id_autheur):
+def get_tous_post_par_auteur(id_auteur):
 
     """
     Renvoie un post à l'aide de l'id de son autheur dans la database.
@@ -346,7 +365,7 @@ def get_tous_post_par_autheur(id_autheur):
     db_connection, db_cursor = ouvrir_database()
 
     try:
-        db_cursor.execute(f'SELECT * FROM posts WHERE AUTHOR = \'{id_autheur}\';')
+        db_cursor.execute(f'SELECT * FROM posts WHERE AUTHOR = \'{id_auteur}\';')
         posts = db_cursor.fetchall()
         fermer_database(db_connection)
 
@@ -561,4 +580,3 @@ def est_ami(id_utilisateur, id_ami):
 #print(est_ami(1,0))
 #print(get_tous_les_amis(1))
 #print(get_tous_les_amis(2))
-#print(get_tous_les_amis(3))

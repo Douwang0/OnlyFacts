@@ -97,7 +97,15 @@ Giulian
 recheche sur profil differant par url
 modification de profil
 depuis profile ajouter ami (sans requete)
+
+Correction de bug et finalisation du projet
+
 Charles
 Recherche de post par id
 Get tous les amis d'un utilisateur par id
 Fonction de recherche BFS du plus court chemin entre deux personnes d'ami en ami
+
+# Semaine 7
+Giulian
+18/05/26
+Ecriture des livrables

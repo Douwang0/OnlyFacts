@@ -1,4 +1,4 @@
-from apps.db import get_posts_avec_infos
+from apps.db import get_posts_avec_infos, get_posts_avec_infos_auteur
 from time import time
 
 def liste_post_fini(search="",fin = 20,croissant=False,cle="created"):
@@ -6,6 +6,37 @@ def liste_post_fini(search="",fin = 20,croissant=False,cle="created"):
     if fin == 0:
         return []
     posts = get_posts_avec_infos(search)
+    posts = tri_selection_dicos_parametre(posts,cle,croissant)
+    posts = posts[:fin]
+    for post in posts:
+        temp = time() - float(post['created'])
+
+        if temp >= 0:
+            debut = "Il y a "
+        else:
+            temp *= -1
+            debut = "Dans "
+
+        if temp < 60: # 1min
+            post['created'] = f"{int(temp)} sec"
+        elif temp < 3600: # 1h
+            post['created'] = f"{int(temp//60)} min"
+        elif temp < 86400: # 1j
+            post['created'] = f"{int(temp//3600)} h"
+        elif temp < 31557600: # 1an
+            post['created'] = f"{int(temp//86400)} jours"
+        else:
+            post['created'] = "plus d'un an"
+        post['created'] = debut + post['created']
+
+    return posts
+
+
+def liste_post_fini_auteur(search="",fin = 20,croissant=False,cle="created",utilisateur_id=None):
+    """Donne la liste des posts prete a etre utiliser dans la page suivant les parametres"""
+    if fin == 0:
+        return []
+    posts = get_posts_avec_infos_auteur(search, utilisateur_id)
     posts = tri_selection_dicos_parametre(posts,cle,croissant)
     posts = posts[:fin]
     for post in posts:
@@ -44,3 +75,4 @@ def tri_selection_dicos_parametre(liste, cle, croissant): #Terrible pour l'opti 
                     index_extreme = j
         liste[i], liste[index_extreme] = liste[index_extreme], liste[i]
     return liste
+
