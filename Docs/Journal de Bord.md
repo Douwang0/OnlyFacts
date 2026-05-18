@@ -109,3 +109,6 @@ Fonction de recherche BFS du plus court chemin entre deux personnes d'ami en ami
 Giulian
 18/05/26
 Ecriture des livrables
+
+Nathan
+Ecriture de docutilisateur
