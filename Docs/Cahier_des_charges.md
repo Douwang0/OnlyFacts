@@ -2,7 +2,8 @@
 # - Historique des modifications -
 
 - 12/03/26 Giulian : Template vide (info debut)
-- 18/03/26 Finission du Cahier initial
+- 18/03/26 Giulian : Finission du Cahier initial
+- 18/05/26 Giulian : Ajout d'information sur le profil
 
 # - En-Tête -
 
@@ -95,6 +96,8 @@ Le site doit proposer :
 - une page de connexion
     
 - une page d’inscription
+
+- une page de profil
     
 - une navigation simple entre les pages
     
@@ -118,7 +121,7 @@ Le site doit proposer :
 
 Le système doit :
 
-- sécuriser les mots de passe
+- sécuriser les mots de passe - Non atteint
     
 - valider les entrées utilisateur
     
